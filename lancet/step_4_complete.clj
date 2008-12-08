@@ -20,29 +20,24 @@
     `(defrunonce ~sym ~(first forms) [] ~@(rest forms))
     `(defrunonce ~sym "a lancet target" [] ~@forms)))
 
-(defmacro define-ant-task [task-name]
-  `(defn ~task-name [props#]
-     (let [task# (instantiate-task ant-project ~(name task-name) props#)]
-       (.execute task#))))
+(defmacro define-ant-task [clj-name ant-name]
+  `(defn ~clj-name [props#]
+     (let [task# (instantiate-task ant-project ~(name ant-name) props#)]
+       (.execute task#)
+       task#)))
 
-(defn task-names [] (seq (.. ant-project getTaskDefinitions keySet)))
+(defn task-names [] (map symbol (seq (.. ant-project getTaskDefinitions keySet))))
 
-(def colliding-names
-  '#{import touch sync concat filter replace get apply})
-
-(defn safe-task-names []
-  (map 
-   (fn [n] (if (get colliding-names (symbol n))
-	     (str "ant-" n)
-	     n))
-   (task-names)))
+(defn safe-ant-name [n]
+  (if (ns-resolve 'clojure.core n) (symbol (str "ant-" n)) n))
 
 (defmacro define-all-ant-tasks []
-  `(do ~@(map (fn [n] `(define-ant-task ~(symbol n))) (task-names))))
+  `(do ~@(map (fn [n] `(define-ant-task ~n ~n)) (task-names))))
 
 (defmacro define-all-ant-tasks []
-  `(do ~@(map (fn [n] `(define-ant-task ~(symbol n))) (safe-task-names))))
+  `(do ~@(map (fn [n] `(define-ant-task ~(safe-ant-name n) ~n)) (task-names))))
 
 (define-all-ant-tasks)
+
 
 

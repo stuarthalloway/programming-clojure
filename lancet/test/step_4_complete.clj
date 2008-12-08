@@ -1,12 +1,8 @@
-(ns lancet.test.step-4-repl
+(ns lancet.test.step-4-complete
   (:use clojure.contrib.test-is [clojure.set :only (intersection)])
-  (:use lancet.step-4-repl))
+  (:use lancet.step-4-complete))
 
 ;; Predicates
-
-(deftest test-has-run-fn
-  (let [x (with-meta [] {:has-run (fn [] :boo)})]
-    (is (= :boo (has-run-fn x)))))
 
 (deftest test-has-run?
   (def #^{:has-run (fn [] :bang)} fn#)
