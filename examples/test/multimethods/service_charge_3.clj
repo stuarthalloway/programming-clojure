@@ -6,7 +6,7 @@
 (alias 'acc 'examples.multimethods.account)
 
 (deftest test-service-charge
-  (each=
+  (are =
    (service-charge {:tag ::acc/Checking, :balance 4999}) 25
    (service-charge {:tag ::acc/Checking, :balance 5000}) 0
    (service-charge {:tag ::acc/Savings, :balance 999}) 10

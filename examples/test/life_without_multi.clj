@@ -7,8 +7,8 @@
 )
 
 (deftest test-my-print
-  (throws NullPointerException (my-print-1 nil))
-  (each=
+  (is (thrown? NullPointerException (my-print-1 nil)))
+  (are =
    (with-out-str (my-print-1 "foo")) "foo"
 
    (with-out-str (my-print-2 "foo")) "foo"

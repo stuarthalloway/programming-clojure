@@ -19,7 +19,7 @@
 (deftest validate-message-list
   (is (nil? (c/validate-message-list ())))
   (is (nil? (c/validate-message-list '({:sender "X" :text "Y"}))))
-  (throws IllegalStateException (c/validate-message-list '({})))
+  (is (thrown? IllegalStateException (c/validate-message-list '({}))))
 )
 
   

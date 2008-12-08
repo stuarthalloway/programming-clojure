@@ -8,7 +8,7 @@
 )
 
 (deftest test-clojure-loc
-  (each=
+  (are =
    (non-svn? ".svn") false
    (non-svn? "foo") true
    (clojure-source? "foo.clj") true
@@ -21,13 +21,13 @@
   (let [now #(System/currentTimeMillis)
 	recent (proxy [File] ["recent"] (lastModified [] (now)))
 	older (proxy [File] ["older"] (lastModified [] (- (now) (minutes 1000))))]
-    (each=
+    (are =
      (recently-modified? recent) true
      (recently-modified? older) false
 )))
 		      
 (deftest test-sets
-  (each=
+  (are =
    (union languages beverages) #{"java" "c" "d" "clojure" "chai" "pop"}
    (difference languages beverages) #{"c" "d" "clojure"}
    (intersection languages beverages) #{"java"}

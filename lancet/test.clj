@@ -13,9 +13,8 @@
 (doseq [test tests]
   (require (test-name test)))
 
-(binding [*test-out* (java.io.PrintWriter. *out*)]
-  (doseq [test tests]
-    (println "\n\n=====>" test)
-    (run-tests (test-name test))))
+(doseq [test tests]
+  (println "\n\n=====>" test)
+  (run-tests (test-name test)))
 
 (shutdown-agents)

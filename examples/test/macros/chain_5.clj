@@ -2,7 +2,7 @@
   (:use clojure.contrib.test-is examples.macros.chain-5))
 
 (deftest test-chain-5
-  (each=
+  (are =
    (macroexpand-1 '(examples.macros.chain-5/chain a b)) '(. a b)
    (macroexpand-1 '(examples.macros.chain-5/chain a b c)) '(examples.macros.chain-5/chain (. a b) c)
 ))

@@ -8,7 +8,7 @@
 
 (deftest test-my-print
   (let [my-print-str (fn [& args] (with-out-str (apply my-print args)))]
-    (each=
+    (are =
      (my-print-str "strval") "strval"
      (my-print-str nil) "nil"
      (my-print-str 42) "42"
@@ -18,7 +18,7 @@
 )))
 
 (deftest test-my-class
-  (each=
+  (are =
    String (my-class "foo")
    nil (my-class nil)
 ))

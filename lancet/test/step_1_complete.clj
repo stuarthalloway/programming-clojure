@@ -4,7 +4,7 @@
 
 (deftest test-ant-project
   (let [listeners (.getBuildListeners ant-project)]
-    (each=
+    (are =
      (count (filter #(= (class %) org.apache.tools.ant.NoBannerLogger) listeners))
      1
 )))
@@ -13,5 +13,5 @@
   (is (= 
        (class (instantiate-task ant-project "echo"))
        org.apache.tools.ant.taskdefs.Echo))
-  (throws IllegalArgumentException (instantiate-task ant-project "not-a-task-name"))
+  (is (thrown? IllegalArgumentException (instantiate-task ant-project "not-a-task-name")))
 )

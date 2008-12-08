@@ -22,12 +22,12 @@
 ;; to write this test you would need a cross-thread with-out-str
 
 (deftest test-try-finally
-  (is (= (with-out-str (throws Exception (demo-try-finally)))
+  (is (= (with-out-str (is (thrown? Exception (demo-try-finally))))
 	 "we get to clean up\n"))
 )
 
 (deftest test-class-available
-  (throws ClassNotFoundException (poor-class-available? "java.lang.MicrosoftRocks"))
+  (is (thrown? ClassNotFoundException (poor-class-available? "java.lang.MicrosoftRocks")))
   (is (= String (poor-class-available? "java.lang.String")))
   (is (false? (class-available? "java.lang.MicrosoftRocks")))
   (is (class-available? "java.lang.String"))
@@ -36,8 +36,8 @@
 (deftest test-describe-class
   (is (= {:name "java.lang.String", :final true} (untyped-describe-class String)))
   (is (= {:name "java.lang.String", :final true} (typed-describe-class String)))
-  (throws IllegalArgumentException (untyped-describe-class "foo"))
-  (throws ClassCastException (typed-describe-class "foo"))
+  (is (thrown? IllegalArgumentException (untyped-describe-class "foo")))
+  (is (thrown? ClassCastException (typed-describe-class "foo")))
 )
 	 
 

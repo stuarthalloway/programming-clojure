@@ -10,7 +10,7 @@
 
 (deftest test-ant-project
   (let [listeners (.getBuildListeners ant-project)]
-    (each=
+    (are =
      (count (filter #(= (class %) org.apache.tools.ant.NoBannerLogger) listeners))
      1
 )))
@@ -18,7 +18,7 @@
 (deftest test-instantiate-task
   (let [echo-task (instantiate-task ant-project "echo" {:message "foo"})]
     (is (= (get-field echo-task "message") "foo")))
-  (throws IllegalArgumentException (instantiate-task ant-project "not-a-task-name"))
+  (is (thrown? IllegalArgumentException (instantiate-task ant-project "not-a-task-name")))
 )
 
 ; using Logger as an example bean. Amazing how few built-in Java

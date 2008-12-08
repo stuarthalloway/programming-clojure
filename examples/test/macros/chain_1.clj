@@ -2,7 +2,7 @@
   (:use clojure.contrib.test-is examples.macros.chain-1))
 
 (deftest test-chain-1
-  (each=
+  (are =
    (macroexpand-1 '(examples.macros.chain-1/chain a b)) '(. a b))
-  (throws IllegalArgumentException (macroexpand-1 '(examples.macros.chain-1/chain a b c)))
+  (is (thrown? IllegalArgumentException (macroexpand-1 '(examples.macros.chain-1/chain a b c))))
 )

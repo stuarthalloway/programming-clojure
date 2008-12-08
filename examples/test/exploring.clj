@@ -71,7 +71,7 @@
 	 (square-corners 0 0 2))))
 
 (deftest test-busted
-  (throws Exception (test #'busted)))
+  (is (thrown? Exception (test #'busted))))
 
 (deftest test-greet-author-1
   (is (= "Hello, John\n" (with-out-str (greet-author-1 {:first-name "John"}))))
