@@ -1,0 +1,17 @@
+<project name="example" default="compile">
+
+	<property name="src" location="src"/>
+	<property name="build" location="classes"/>
+
+	<target name="init">
+		<tstamp/>
+		<mkdir dir="${build}"/>
+	</target>
+
+	<target name="compile" depends="init"
+	        description="Compile Java sources.">
+		<javac srcdir="${src}" 
+		       destdir="${build}"/>
+	</target>
+
+</project>

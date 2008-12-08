@@ -1,0 +1,13 @@
+Sample Code for Programming Clojure
+http://www.pragprog.com/titles/shcloj/programming-clojure
+
+Copyright © 2008 Stuart Halloway. 
+All rights reserved. 
+
+This version of the sample code has been tested with:
+
+Clojure SVN revision 1132                                  
+svn co -r 1132 https://clojure.svn.sourceforge.net/svnroot/clojure/trunk clojure    
+
+Clojure-Contrib SVN revision 259:
+svn co -r 259 https://clojure-contrib.svn.sourceforge.net/svnroot/clojure-contrib/trunk clojure-contrib     

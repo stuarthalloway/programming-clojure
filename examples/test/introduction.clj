@@ -1,0 +1,31 @@
+(ns examples.test.introduction
+  (:use clojure.contrib.test-is)
+  (:use examples.introduction))
+
+(deftest test-blank?
+  (is (blank? ""))
+  (is (blank? " "))
+  (is (false? (blank? "boo")))
+)
+
+(deftest test-accounts
+  (dosync (commute accounts conj (struct account "CLSS" 0)))
+  (is (= #{{:id "CLSS" :balance 0}} @accounts))
+)
+
+(deftest test-fibs
+  (is (= [0 1 1 2 3 5 8 13 21 34] (take 10 fibs))))
+
+(deftest test-hello-with-memory
+  (dosync (ref-set visitors #{}))
+  (is (= (hello-with-memory "Muness") "Hello, Muness" ))
+  (is (= (hello-with-memory "Muness") "Welcome back, Muness" ))
+  (is (= #{"Muness"} @visitors))
+)
+
+(deftest test-hello-docstring
+  (is (= (with-out-str (hello-docstring "Aaron")) "Hello, Aaron\n"))
+)
+
+
+  
