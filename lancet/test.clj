@@ -5,7 +5,7 @@
 	    :step-2-repl :step-2-complete
 	    :step-3-repl :step-3-complete
 	    :step-4-repl :step-4-complete
-	    :defrunonce-1])
+	    :deftarget-1])
 
 (defn test-name
   [test]

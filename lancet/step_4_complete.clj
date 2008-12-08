@@ -8,17 +8,11 @@
 (defmacro reset [f]
   `((:reset-fn (meta (var ~f)))))
 
-(defmacro defrunonce [sym doc & forms]
+(defmacro deftarget [sym doc & forms]
   (let [has-run (gensym "hr-") reset-fn (gensym "rf-")]
     `(let [[~has-run ~reset-fn once-fn#] (runonce (fn [] ~@forms))]
        (def ~(with-meta sym {:doc doc :has-run has-run :reset-fn reset-fn}) 
 	    once-fn#))))
-
-(defmacro deftarget 
-  [sym & forms]
-  (if (string? (first forms))
-    `(defrunonce ~sym ~(first forms) [] ~@(rest forms))
-    `(defrunonce ~sym "a lancet target" [] ~@forms)))
 
 (defmacro define-ant-task [clj-name ant-name]
   `(defn ~clj-name [props#]
