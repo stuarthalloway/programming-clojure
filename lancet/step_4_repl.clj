@@ -35,7 +35,8 @@
 ; END: define-ant-task
 
 ; START: task-names
-(defn task-names [] (map symbol (seq (.. ant-project getTaskDefinitions keySet))))
+(defn task-names [] 
+  (map symbol (seq (.. ant-project getTaskDefinitions keySet))))
 ; END: task-names
 
 ; START: safe-ant-name
