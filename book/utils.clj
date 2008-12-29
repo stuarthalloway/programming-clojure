@@ -23,6 +23,10 @@
   ([x form & more] 
      `(if-let x# (. ~x ~form) (.? x# ~@more))))
 
+(defn files-on-classpath-at [path]
+  (when-let [url (.findResource (.getContextClassLoader (Thread/currentThread)) path)]
+    (file-seq (java.io.File. (.getFile url)))))
+
 (defmacro defdemo [nm & forms]
   `(defn ~nm []
      (let [result# (with-out-str (format-for-book ~@forms))]

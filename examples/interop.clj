@@ -53,7 +53,7 @@
 (def print-element-handler
      (proxy [DefaultHandler] [] 
        (startElement            
-	[qname, local, qname, atts] 
+	[uri, local, qname, atts] 
 	(println (format "Saw element: %s" qname)))))
 ; END:print-element-handler
 

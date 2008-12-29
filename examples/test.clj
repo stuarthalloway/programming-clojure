@@ -1,4 +1,4 @@
-(ns exmaples.test
+(ns examples.test
   (:use clojure.contrib.test-is))
 
 (def tests [:chat :exploring :interop :introduction :multimethods :preface
@@ -9,16 +9,19 @@
 	    :macros.chain-5 :lazy-index-of-any :macros.bench-1
 	    :concurrency :functional])
 
+(println "tests are " tests)
+
 (defn test-name
   [test]
   (symbol (str "examples.test." (name test))))
 
 (doseq [test tests]
+  (println "requiring " (test-name test))
   (require (test-name test)))
 
-(doseq [test tests]
-  (println "\n\n=====>" test)
-  (run-tests (test-name test)))
+;; (doseq [test tests]
+;;   (println "\n\n=====>" test)
+;;   (run-tests (test-name test)))
 
-; TODO: document in book
-(shutdown-agents)
+;; ; TODO: document in book
+;; (shutdown-agents)
