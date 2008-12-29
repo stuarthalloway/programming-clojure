@@ -1,5 +1,14 @@
 (ns book.utils
-    (:use [clojure.contrib.duck-streams :only (spit)]))
+    (:use [clojure.contrib.duck-streams :only (spit)])
+    (:import [java.io BufferedReader InputStreamReader]))
+	  
+(defn make-process [p] (.. Runtime getRuntime (exec (str p))))
+
+(defn exec [cmdline]
+ (let [r (BufferedReader.
+	  (InputStreamReader.
+	   (.getInputStream (make-process cmdline))))]
+   (dorun (map println (line-seq r)))))
 
 (defn classloader-seq 
   ([] (classloader-seq (clojure.lang.RT/baseLoader)))
