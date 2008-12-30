@@ -1,0 +1,8 @@
+.clojure .comment { color: gray; }
+.clojure .string {	color: teal; }
+.clojure .function { color: #00c; }
+.clojure .macro, .specialops { color: #60c; }
+.clojure .parens { color: #000; }
+.clojure .keyword { color: #c09; }
+.clojure .brackets { color: #006; }
+.clojure .curlybrackets { color: #906; }

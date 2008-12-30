@@ -1,4 +1,4 @@
-(ns book.utils
+(ns examples.utils
     (:use [clojure.contrib.duck-streams :only (spit)])
     (:import [java.io BufferedReader InputStreamReader]))
 	  

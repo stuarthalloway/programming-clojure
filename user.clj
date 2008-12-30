@@ -1,2 +1,2 @@
-(use 'book.utils)
+(use 'examples.utils)
 

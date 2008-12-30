@@ -1,5 +1,5 @@
 (ns examples.snippet-server
-  (:use [compojure html http jetty] 
+  (:use [compojure html http jetty file-utils] 
         examples.snippet))
 
 (reset-snippets)
@@ -7,7 +7,7 @@
 (defn show-snippet [id]
   (let [snippet (select-snippet id)]
     (html
-     [:div {:class "body"} (:body snippet)]
+     [:div [:pre [:code {:class "clojure"} (:body snippet)]]]
      [:div {:class "date"} (:created_at snippet)])))
     
 (defservlet snippet-servlet
@@ -18,11 +18,22 @@
     (html
       (form-to [POST "/"]
         (text-area {:rows 20} "body")
-	[:br]
-	(submit-button "Save"))))
+        [:br]
+        (submit-button "Save"))))
 
   (GET "/:id"
-    (show-snippet (route :id)))
+    (html
+      [:head
+        (include-js "/javascripts/code-highlighter.js" "/javascripts/clojure.js")
+        (include-css "/stylesheets/code-highlighter.css")]
+      [:body
+        (show-snippet (route :id))]))
+
+  (GET "/javascripts/:name.js"
+    (file (str "javascripts/" (route :name) ".js")))
+
+  (GET "/stylesheets/:name.css"
+    (file (str "stylesheets/" (route :name) ".css")))
 
   (POST "/"
     (if-let [id (insert-snippet params)]
