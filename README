@@ -6,8 +6,8 @@ All rights reserved.
 
 This version of the sample code has been tested with:
 
-Clojure SVN revision 1146                                  
-svn co -r 1146 https://clojure.svn.sourceforge.net/svnroot/clojure/trunk clojure    
+Clojure SVN revision 1187
+svn co -r 1187 http://clojure.googlecode.com/svn/trunk/ clojure    
 
-Clojure-Contrib SVN revision 285:
-svn co -r 285 https://clojure-contrib.svn.sourceforge.net/svnroot/clojure-contrib/trunk clojure-contrib     
+Clojure-Contrib SVN revision 331:
+svn co -r 331 http://clojure-contrib.googlecode.com/svn/trunk/ clojure-contrib     
