@@ -10,35 +10,41 @@
      [:div [:pre [:code {:class "clojure"} (:body snippet)]]]
      [:div {:class "date"} (:created_at snippet)])))
     
+(defn layout [title & body]
+  (html
+    [:head
+      [:title title]
+      (include-js "/public/javascripts/code-highlighter.js" "/public/javascripts/clojure.js")
+      (include-css "/public/stylesheets/code-highlighter.css")]
+    [:body
+      [:h2 title]
+      body]))
+
 (defservlet snippet-servlet
   "create and view snippets"
   (GET "/ping" "Pong")
 
-  (GET "/" 
-    (html
+  (GET "/"
+    (layout "Create a Snippet"
       (form-to [POST "/"]
         (text-area {:rows 20} "body")
         [:br]
         (submit-button "Save"))))
 
   (GET "/:id"
-    (html
-      [:head
-        (include-js "/javascripts/code-highlighter.js" "/javascripts/clojure.js")
-        (include-css "/stylesheets/code-highlighter.css")]
-      [:body
-        (show-snippet (route :id))]))
+    (layout (str "Snippet " (route :id))
+      (show-snippet (route :id))))
 
-  (GET "/javascripts/:name.js"
-    (file (str "javascripts/" (route :name) ".js")))
-
-  (GET "/stylesheets/:name.css"
-    (file (str "stylesheets/" (route :name) ".css")))
+  (GET "/public/*"
+    (serve-file "public" (route :*)))
 
   (POST "/"
     (if-let [id (insert-snippet params)]
       (redirect-to (str "/" id))
-      (redirect-to "/"))))
+      (redirect-to "/")))
+
+  (ANY "*"
+    (page-not-found)))
 
 (defserver snippet-server
   {:port 8080}
