@@ -34,18 +34,23 @@
   (sql/with-connection db
     (sql/transaction
      (drop-snippets)
-     (insert-snippets))))
-
-(defn read-snippets []
-  (sql/with-connection db
-    (sql/with-results res
-     "select * from snippets"
-      (doseq [rec res]
-        (println rec)))))
+     (create-snippets))))
 
 (defn sql-query [q]
   (sql/with-results res q (into [] res)))
-		       
+
+(defmulti coerce (fn [dest-class src-inst] [dest-class (class src-inst)]))
+(defmethod coerce [Integer String] [_ inst] (Integer/parseInt inst))
+(defmethod coerce :default [dest-cls obj] (cast dest-cls obj))
+
+(defn select-snippets []
+  (sql/with-connection db
+    (sql/with-results res "select * from snippets" (into [] res))))
+
+(defn select-snippet [id]
+  (sql/with-connection db
+    (first (sql-query (str "select * from snippets where id = " (coerce Integer id))))))
+
 (defn insert-snippet [params]
   (sql/with-connection db
     (sql/transaction
