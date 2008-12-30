@@ -21,7 +21,6 @@
 ; END: calls-slow-double
 
 ; START: demo-memoize
-(use '[clojure.contrib.memoize :only (memoize)])
 (defn demo-memoize []
   (time 
    (dorun

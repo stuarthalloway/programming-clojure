@@ -8,7 +8,7 @@
 
 (deftest test-my-print
   (is (thrown? NullPointerException (my-print-1 nil)))
-  (are =
+  (are (= _1 _2)
    (with-out-str (my-print-1 "foo")) "foo"
 
    (with-out-str (my-print-2 "foo")) "foo"

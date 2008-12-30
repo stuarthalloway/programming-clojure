@@ -1,6 +1,6 @@
 ; START:ns
 (ns examples.exploring
-    (:use book.utils clojure.contrib.str-utils)
+    (:use examples.utils clojure.contrib.str-utils)
     (:import (java.io File)))
 ; END:ns
 

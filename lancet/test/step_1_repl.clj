@@ -4,10 +4,9 @@
 
 (deftest test-ant-project
   (let [listeners (.getBuildListeners ant-project)]
-    (are =
-     (count (filter #(= (class %) org.apache.tools.ant.NoBannerLogger) listeners))
-     1
-)))
+    (is (=
+	  (count (filter #(= (class %) org.apache.tools.ant.NoBannerLogger) listeners))
+	  1))))
 
 (deftest test-instantiate-task
   (is (= 

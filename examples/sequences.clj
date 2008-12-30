@@ -1,5 +1,5 @@
 (ns examples.sequences
-    (:use book.utils clojure.set clojure.xml))
+    (:use examples.utils clojure.set clojure.xml))
 
 ; START:song
 (def song {:name "Agnus Dei"

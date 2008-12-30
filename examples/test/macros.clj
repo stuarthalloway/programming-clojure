@@ -9,7 +9,7 @@
 
 ; unless-2 evals args before test
 (deftest test-unless-2
-  (are = 
+  (are (= _1 _2) 
    (with-out-str (unless-2 false :foo)) "About to test...\n"
    (with-out-str (unless-2 true :foo)) "About to test...\n"))
 
@@ -21,19 +21,19 @@
 
 ; bad-unless captures a symbol
 (deftest test-expansions
-  (are =
+  (are (= _1 _2)
    (macroexpand-1 '(examples.macros/unless false :foo)) '(if false nil :foo)
    (macroexpand-1 '(examples.macros/bad-unless false :foo)) '(if expr nil :foo)
   )
 )
 
 (deftest test-bench-2
-  (are = 
+  (are (= _1 _2) 
    (:result (examples.macros/bench (+ 1 2)))
    3))
 
 (deftest test-bench-fn
-  (are =
+  (are (= _1 _2)
    (:result (examples.macros/bench-fn (fn [] (+ 2 2))))
    4))
 				      
