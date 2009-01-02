@@ -2,12 +2,15 @@
 desc "Build latest Clojure, Clojure-Contrib, and Compojure"
 task :book_deps do
   Dir.chdir ENV["CLOJURE_HOME"] do
+    system "git svn rebase"
     system "ant jar"
   end
   Dir.chdir ENV["CLOJURE_CONTRIB_HOME"] do
+    system "git svn rebase"
     system "ant"
   end
   Dir.chdir ENV["COMPOJURE_HOME"] do
+    system "git pull"
     system "ant"
   end
   cp "#{ENV['CLOJURE_HOME']}/clojure.jar", "lib/" 

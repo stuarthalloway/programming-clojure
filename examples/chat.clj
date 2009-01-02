@@ -11,9 +11,10 @@
 ; START: validate-message-list
 (defn validate-message-list [lst]
   (if (not-every? #(and (:sender %) (:text %)) lst)
-    (throw (IllegalStateException. "Not a valid message"))))
+    (throw (IllegalStateException. "Not a valid message"))
+    true))
 
-(def messages (ref () validate-message-list))
+(def messages (ref () :validator validate-message-list))
 ; END: validate-message-list
 
 ; START: naive-add-message

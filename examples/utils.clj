@@ -4,6 +4,12 @@
 	  
 (defn make-process [p] (.. Runtime getRuntime (exec (str p))))
 
+(require 'clojure.contrib.test-is)
+(defmacro re-test [test-sym]
+  `(do
+     (require :reload-all '~test-sym)
+     (clojure.contrib.test-is/run-tests '~test-sym)))
+  
 (defn exec [cmdline]
  (let [r (BufferedReader.
 	  (InputStreamReader.
