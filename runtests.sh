@@ -1,1 +1,1 @@
-java -cp $CLOJURE_HOME/clojure.jar:$CLOJURE_CONTRIB_HOME/clojure-contrib.jar:$ANT_HOME/lib/ant.jar:$ANT_HOME/lib/ant-launcher.jar:. clojure.lang.Script examples/test.clj
+java -cp lib/clojure.jar:lib/clojure-contrib.jar:lib/ant.jar:lib/ant-launcher.jar:. clojure.lang.Script examples/test.clj
