@@ -22,8 +22,5 @@
 (deftest test-lazy-cons-fibo
   (is (= ten-fibs (take 10 (lazy-cons-fibo)))))
 
-(deftest test-lazy-cat-fibo
-  (is (= ten-fibs (take 10 (lazy-cat-fibo)))))
-
 (deftest test-head-fibo 
   (is (= ten-fibs (take 10 head-fibo))))

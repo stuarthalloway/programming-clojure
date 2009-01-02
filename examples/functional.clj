@@ -48,17 +48,15 @@
 		(recur (conj series f) (inc current)))))))) ; <label id="code.fibo-series.recur"/>
 ; END: fibo-series
 
+; START: lazy-cons-fibo
 (defn lazy-cons-fibo []
-  ((fn fib [a b]
-     (lazy-cons a (fib b (+ a b))))
-   0 1))
-    
-(defn lazy-cat-fibo [] 
-  (lazy-cat [0 1] (map + (lazy-cat-fibo) (rest (lazy-cat-fibo)))))
+  ((fn fib [a b] ; <label id="code.lazy-cons.fib"/>
+     (lazy-cons a (fib b (+ a b)))) ; <label id="code.lazy-cons.recur"/>
+   0 1)) ; <label id="code.lazy-cons.basis"/>
+; END: lazy-cons-fibo
 
+; START: head-fibo
 ; holds the head (avoid!)
 (def head-fibo (lazy-cat [0 1] (map + head-fibo (rest head-fibo))))
-
-
-  
+; END: head-fibo
 
