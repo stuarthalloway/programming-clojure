@@ -1,62 +1,97 @@
 (ns examples.snippet
-  (:require [clojure.contrib.sql :as sql]))
+  (:use [clojure.contrib.sql]))
 
+; START: db
+; replace "snippet-db" with a full path!
 (def db {:classname "org.hsqldb.jdbcDriver"
          :subprotocol "hsqldb"
-         :subname "mem:testdb"})
+         :subname "file:snippet-db"})
+; END: db
 
 (defn drop-snippets []
   (try
-   (sql/drop-table :snippets)
+   (drop-table :snippets)
    (catch Exception e)))
 
+; START: create-snippets
 (defn create-snippets []
-  (sql/create-table :snippets
+  (create-table :snippets
     [:id :int "IDENTITY" "PRIMARY KEY"]
     [:body :varchar "NOT NULL"]
     [:created_at :datetime]))
+; END: create-snippets
 
+; START: insert-snippets
+(defn now [] (java.sql.Timestamp. (.getTime (java.util.Date.)))) 
 (defn insert-snippets []
-  (let [now (java.sql.Timestamp. (.getTime (java.util.Date.)))]
-    (sql/insert-values :snippets
+  (let [created_at (now)]
+    (seq 
+     (insert-values :snippets
       [:body :created_at]		     
-      ["The quick brown fox jumped over the lazy dog" now]
-      ["All cows eat grass" now])))
+      ["(println :boo)" created_at]
+      ["(defn foo [] 1)" created_at]))))
+; END: insert-snippets
 
 (defn sample-snippets []
-  (sql/with-connection db
-    (sql/transaction
+  (with-connection db
+    (transaction
      (drop-snippets)
      (create-snippets)
      (insert-snippets))))
 
 (defn reset-snippets []
-  (sql/with-connection db
-    (sql/transaction
+  (with-connection db
+    (transaction
      (drop-snippets)
      (create-snippets))))
 
-(defn sql-query [q]
-  (sql/with-results res q (into [] res)))
+; START: print-snippets
+(defn print-snippets []
+  (with-results res "select * from snippets"
+    (println res)))
+; END: print-snippets
+ 
+; START: broken-select-snippets
+; Broken!
+(defn select-snippets []
+  (with-results res "select * from snippets" res))
+; END: broken-select-snippets
+(def broken-select-snippets select-snippets)
 
 (defmulti coerce (fn [dest-class src-inst] [dest-class (class src-inst)]))
 (defmethod coerce [Integer String] [_ inst] (Integer/parseInt inst))
 (defmethod coerce :default [dest-cls obj] (cast dest-cls obj))
 
+; START: select-snippets
 (defn select-snippets []
-  (sql/with-connection db
-    (sql/with-results res "select * from snippets" (into [] res))))
+  (with-connection db
+    (with-results res "select * from snippets" (doall res))))
+; END: select-snippets
+
+; START: sql-query
+(defn sql-query [q]
+  (with-results res q (doall res)))
+; END: sql-query
 
 (defn select-snippet [id]
-  (sql/with-connection db
+  (with-connection db
     (first (sql-query (str "select * from snippets where id = " (coerce Integer id))))))
 
-(defn insert-snippet [params]
-  (sql/with-connection db
-    (sql/transaction
-     (let [now (java.sql.Timestamp. (.getTime (java.util.Date.)))]
-       (sql/insert-values :snippets
-         [:body :created_at]
-	 [(:body params) now])
-       ; extract id from hsqldb's [{:@p0 id}]
-       (first (vals (first (sql-query "CALL IDENTITY()"))))))))
+; START: last-created-id
+(defn last-created-id 
+  "Extract the last created id. Must be called in a transaction
+   that performed an insert. Expects HSQLDB return structure of
+   the form [{:@p0 id}]."
+  []
+  (first (vals (first (sql-query "CALL IDENTITY()")))))
+; END: last-created-id
+
+; START: insert-snippet
+(defn insert-snippet [body]
+  (with-connection db
+    (transaction
+     (insert-values :snippets
+       [:body :created_at]
+       [body (now)])
+     (last-created-id))))
+; END: insert-snippet
