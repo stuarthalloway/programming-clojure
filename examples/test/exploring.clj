@@ -84,3 +84,8 @@
 (deftest test-ellipsize
   (is (= "This had better ..."
 	 (ellipsize "This had better work!"))))
+
+; START: thrown
+(deftest test-divide-by-zero
+  (is (thrown? ArithmeticException (/ 5 0))))
+; END: thrown

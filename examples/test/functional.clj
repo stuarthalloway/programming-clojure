@@ -24,3 +24,27 @@
 
 (deftest test-head-fibo 
   (is (= ten-fibs (take 10 head-fibo))))
+
+(deftest test-symbol-replace
+  (are (= _1 _2)
+       () (symbol-replace () 'a 'b)
+       '(a) (symbol-replace '(a) 'b 'c)
+       '(c) (symbol-replace '(b) 'b 'c)
+       '(a (d e)) (symbol-replace '(a (d e)) 'b 'c)
+       '(c (c c)) (symbol-replace '(b (b b)) 'b 'c)
+))
+
+(deftest test-hofstadter-m-f
+  (are (= _1 _2)
+       [0, 0, 1, 2, 2, 3, 4, 4, 5, 6, 6, 7, 7, 8, 9, 9, 10, 11, 11, 12, 12]
+       (map h-male (range 0 21))
+       [1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 6, 7, 8, 8, 9, 9, 10, 11, 11, 12, 13]
+       (map h-female (range 0 21))))
+
+(deftest test-count-heads-pairs
+  (doseq [count-fn [count-heads-loop count-heads-by-pairs]]
+      (are (= _1 _2)
+	   0 (count-fn [:h :t])
+	   1 (count-fn [:t :h :h :t])
+	   2 (count-fn [:h :h :h])
+)))

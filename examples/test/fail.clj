@@ -3,12 +3,12 @@
 
 ; START:test-is-failure
 (deftest test-that-demonstrates-failure
-  (is (nil? (index-of-any "aba" #{\a})))) 
+  (is (= 5 (+ 2 2))))
 ; END:test-is-failure
 
 ; START:test-is-error-message
 (deftest test-that-demonstrates-error-message
-  (is (nil? (index-of-any "aba" #{\a})) "your message here"))
+  (is (= 3 Math/PI) "PI is an integer!?"))
 ; END:test-is-error-message
 
 (run-tests)
