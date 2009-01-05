@@ -3,9 +3,10 @@
 ; Mark Volkmann's snake: http://www.ociweb.com/mark/programming/ClojureSnake.html 
 
 (ns examples.snake
-  (:import (java.awt Color) (javax.swing JPanel JFrame Timer)
+  (:import (java.awt Color) (javax.swing JPanel JFrame Timer JOptionPane)
            (java.awt.event ActionListener KeyListener))
-  (:use clojure.contrib.import-static))
+  (:use clojure.contrib.import-static
+	[clojure.contrib.seq-utils :only (includes?)]))
 (import-static java.awt.event.KeyEvent VK_LEFT VK_RIGHT VK_UP VK_DOWN)
 
 ; Game board and coordinates. points are [x,y] vectors 
@@ -13,6 +14,7 @@
 (def height 50)
 (def point-size 10)
 (def turn-millis 75)
+(def win-length 5)
 
 (defn add-points [& pts] 
   (vec (apply map + pts)))
@@ -27,12 +29,22 @@
 	    VK_DOWN  [ 0  1]})
 
 ; apple
-(defn random-apple [] [(rand-int width) (rand-int height)])
+(def *apple* (ref nil))
 
-(def *apple* (ref (random-apple)))
+(defn create-apple [] 
+  {:location [(rand-int width) (rand-int height)]
+   :color (Color. 210 50 90)
+   :type :apple}) 
 
 ; snake
-(def *snake* (ref {:body (list [1 1]) :dir [1 0]}))
+(def *snake* (ref nil))
+
+(defn create-snake []
+  {:body (list [1 1]) 
+   :dir [1 0]
+   :type :snake
+   :color (Color. 15 160 70)})
+
 
 (defn move [{:keys [body dir] :as snake} & grow]
   (assoc snake :body (cons (add-points (first body) dir) 
@@ -41,53 +53,83 @@
 (defn turn [snake newdir] 
   (if newdir (assoc snake :dir newdir) snake))
 
-; per-game-turn update
-(defn collision? [{[snake-head] :body} apple]
+(defn win? [{body :body}]
+  (>= (count body) win-length))
+
+(defn head-overlaps-body? [{[head & body] :body}]
+  ; have proposed to SS that argument order be reversed:
+  (includes? head body))
+
+(def lose? head-overlaps-body?)
+
+(defn collision? [{[snake-head] :body} {apple :location}]
    (= snake-head apple))
 
-(defn update-positions [snake-ref apple-ref]
+; state updates
+(defn update-positions [snake apple]
   (dosync
-   (if (collision? @snake-ref @apple-ref)
-     (do (ref-set apple-ref (random-apple))
-	 (alter snake-ref move :grow))
-     (alter snake-ref move))))
+   (if (collision? @snake @apple)
+     (do (ref-set apple (create-apple))
+	 (alter snake move :grow))
+     (alter snake move))))
+
+(defn update-direction [snake newdir]
+  (dosync (alter snake turn newdir)))
+
+(defn reset-game []
+  (dosync (ref-set *apple* (create-apple))
+	  (ref-set *snake* (create-snake))))
+
+(reset-game)
 
 ; drawing
-(def colors {:apple (Color. 210 50 90) :snake (Color. 15 160 70)})
-
-(defn paint [g pt color] 
+(defn fill-point [g pt color] 
   (let [[x y width height] (point-to-screen-rect pt)]
     (.setColor g color) 
     (.fillRect g x y width height)))
 
-(defn paint-snake [g {:keys [body]}]
-  (doseq [point body]
-    (paint g point (colors :snake))))
+(defmulti paint (fn [g object & _] (:type object)))
 
-(defn paint-apple [g apple]
-  (paint g apple (colors :apple)))
+(defmethod paint :snake [g {:keys [body color]}]
+  (doseq [point body]
+    (fill-point g point color)))
+
+(defmethod paint :apple [g {:keys [location color]}]
+  (fill-point g location color))
  
 ; gui elements
+(def frame (JFrame. "Snake"))
+
 (def panel 
   (proxy [JPanel ActionListener KeyListener] []
     (paintComponent [g] 
       (proxy-super paintComponent g)
-      (paint-snake g @*snake*)
-      (paint-apple g @*apple*))
+      (paint g @*snake*)
+      (paint g @*apple*))
     (actionPerformed [e]
       (update-positions *snake* *apple*)
+      (when (lose? @*snake*)
+	(reset-game)
+	(JOptionPane/showMessageDialog frame "You lose!"))
+      (when (win? @*snake*)
+	(reset-game)
+	(JOptionPane/showMessageDialog frame "You win!"))
       (.repaint this))
     (keyPressed [e] 
-      (dosync (alter *snake* turn (dirs (.getKeyCode e)))))
+      (update-direction *snake* (dirs (.getKeyCode e))))
     (keyReleased [e])
     (keyTyped [e])))
+
+(def timer (Timer. turn-millis panel))
  
 (doto panel 
   (.setFocusable true)
   (.addKeyListener panel))
 
-(doto (JFrame. "Snake")
+(doto frame
   (.add panel)
   (.setSize (* width point-size) (* height point-size))
   (.setVisible true))
-(.start (Timer. turn-millis panel))
+(.start timer)
+
+
