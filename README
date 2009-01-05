@@ -4,10 +4,17 @@ http://www.pragprog.com/titles/shcloj/programming-clojure
 Copyright 2008 Stuart Halloway. 
 All rights reserved. 
 
+-------------------------------------------------------------------------------
+DEPENDENCIES
+
 This version of the sample code has been tested with:
 
 Clojure SVN revision 1195
 svn co -r 1195 http://clojure.googlecode.com/svn/trunk/ clojure    
 
 Clojure-Contrib SVN revision 335:
-svn co -r 1195 http://clojure-contrib.googlecode.com/svn/trunk/ clojure-contrib     
+svn co -r 335 http://clojure-contrib.googlecode.com/svn/trunk/ clojure-contrib     
+
+-------------------------------------------------------------------------------
+You can run the completed Compojure example with
+  bin/snippet-solution.sh complete

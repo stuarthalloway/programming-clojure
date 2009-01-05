@@ -45,6 +45,12 @@
      (drop-snippets)
      (create-snippets))))
 
+(defn ensure-snippets-table-exists []
+  (try
+   (with-connection db (create-snippets))
+   (catch java.sql.BatchUpdateException _)))
+  
+
 ; START: print-snippets
 (defn print-snippets []
   (with-results res "select * from snippets"

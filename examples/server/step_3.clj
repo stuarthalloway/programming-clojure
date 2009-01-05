@@ -1,7 +1,8 @@
-(ns examples.server.complete
+(ns examples.server.step-3
   (:use [compojure html http jetty file-utils] 
         examples.snippet))
 
+; START: layout
 (defn layout [title & body]
   (html
     [:head
@@ -11,25 +12,30 @@
     [:body
       [:h2 title]
       body]))
+; END: layout
 
+; START: new-snippet
 (defn new-snippet []
   (layout "Create a Snippet"
     (form-to [POST "/"]
       (text-area {:rows 20 :cols 73} "body")
       [:br]
       (submit-button "Save"))))
+; END: snippet
 
 (defn create-snippet [body]
   (if-let [id (insert-snippet body)]
     (redirect-to (str "/" id))
     (redirect-to "/")))
 
+; START: show-snippet
 (defn show-snippet [id]
   (layout (str "Snippet " id)
     (let [snippet (select-snippet id)]
       (html
        [:div [:pre [:code.clojure (:body snippet)]]]
-       [:div.date (:created_at snippet)]))))
+       [:div (:created_at snippet)]))))
+; END: show-snippet
 
 (defservlet snippet-servlet
   "Create and view snippets."
@@ -44,8 +50,10 @@
   (POST "/"
     (create-snippet (:body params)))	
 
+  ; START: public
   (GET "/public/*"
     (or (serve-file (route :*)) :next))
+  ; END: public
 
   (ANY "*"
     (page-not-found)))
@@ -54,5 +62,3 @@
   {:port 8080}
   "/*" snippet-servlet)
 
-(ensure-snippets-table-exists)
-(start snippet-server)
