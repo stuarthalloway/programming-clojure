@@ -7,7 +7,8 @@
   (html
     [:head
       [:title title]
-      (include-js "/public/javascripts/code-highlighter.js" "/public/javascripts/clojure.js")
+      (include-js "/public/javascripts/code-highlighter.js" 
+		  "/public/javascripts/clojure.js")
       (include-css "/public/stylesheets/code-highlighter.css")]
     [:body
       [:h2 title]
@@ -21,7 +22,7 @@
       (text-area {:rows 20 :cols 73} "body")
       [:br]
       (submit-button "Save"))))
-; END: snippet
+; END: new-snippet
 
 (defn create-snippet [body]
   (if-let [id (insert-snippet body)]

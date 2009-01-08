@@ -49,7 +49,7 @@
    :dir [1 0]
    :type :snake
    :color (Color. 15 160 70)})
-; START: snake
+; END: snake
 
 ; START: move
 (defn move [{:keys [body dir] :as snake} & grow]
@@ -62,89 +62,107 @@
   (if newdir (assoc snake :dir newdir) snake))
 ; END: turn
 
-; START: win
+; START: win?
 (defn win? [{body :body}]
   (>= (count body) win-length))
-; END: win
+; END: win?
 
-; START: lose
+; START: lose?
 (defn head-overlaps-body? [{[head & body] :body}]
   ; have proposed to SS that argument order be reversed:
   (includes? head body))
 
 (def lose? head-overlaps-body?)
-; END: lose
+; END: lose?
 
-; START: eats
+; START: eats?
 (defn eats? [{[snake-head] :body} {apple :location}]
    (= snake-head apple))
-; END: eats
+; END: eats?
 
 ; ----------------------------------------------------------
 ; mutable model
 ; ----------------------------------------------------------
+; START: update-positions
 (defn update-positions [snake apple]
   (dosync
    (if (eats? @snake @apple)
      (do (ref-set apple (create-apple))
 	 (alter snake move :grow))
-     (alter snake move))))
+     (alter snake move)))
+  nil)
+; END: update-positions
 
+; START: update-direction
 (defn update-direction [snake newdir]
   (dosync (alter snake turn newdir)))
+; END: update-direction
 
+; START: reset-game
 (defn reset-game [snake apple]
   (dosync (ref-set apple (create-apple))
-	  (ref-set snake (create-snake))))
+	  (ref-set snake (create-snake)))
+  nil)
+; END: reset-game
 
 ; ----------------------------------------------------------
 ; gui
 ; ----------------------------------------------------------
+; START: fill-point
 (defn fill-point [g pt color] 
   (let [[x y width height] (point-to-screen-rect pt)]
     (.setColor g color) 
     (.fillRect g x y width height)))
+; END: fill-point
 
+; START: paint
 (defmulti paint (fn [g object & _] (:type object)))
 
-(defmethod paint :snake [g {:keys [body color]}]
-  (doseq [point body]
-    (fill-point g point color)))
-
-(defmethod paint :apple [g {:keys [location color]}]
+(defmethod paint :apple [g {:keys [location color]}] ; <label id="code.paint.apple"/>
   (fill-point g location color))
 
+(defmethod paint :snake [g {:keys [body color]}] ; <label id="code.paint.snake"/>
+  (doseq [point body]
+    (fill-point g point color)))
+; END: paint
+
+; START: game-panel
+(defn game-panel [frame snake apple]
+  (proxy [JPanel ActionListener KeyListener] []
+    (paintComponent [g] ; <label id="code.game-panel.paintComponent"/>
+      (proxy-super paintComponent g)
+      (paint g @snake)
+      (paint g @apple))
+    (actionPerformed [e] ; <label id="code.game-panel.actionPerformed"/>
+      (update-positions snake apple)
+      (when (lose? @snake)
+	(reset-game snake apple)
+	(JOptionPane/showMessageDialog frame "You lose!"))
+      (when (win? @snake)
+	(reset-game snake apple)
+	(JOptionPane/showMessageDialog frame "You win!"))
+      (.repaint this))
+    (keyPressed [e] ; <label id="code.game-panel.keyPressed"/>
+      (update-direction snake (dirs (.getKeyCode e))))
+    (keyReleased [e])
+    (keyTyped [e])))
+; END: game-panel
+
+; START: game
 (defn game [] 
-  (let [snake (ref (create-snake))
+  (let [snake (ref (create-snake)) ; <label id="code.game.let"/>
 	apple (ref (create-apple))
 	frame (JFrame. "Snake")
-	panel (proxy [JPanel ActionListener KeyListener] []
-		(paintComponent [g] 
-		  (proxy-super paintComponent g)
-		  (paint g @snake)
-		  (paint g @apple))
-		(actionPerformed [e]
-                  (update-positions snake apple)
-		  (when (lose? @snake)
-		    (reset-game snake apple)
-		    (JOptionPane/showMessageDialog frame "You lose!"))
-		  (when (win? @snake)
-		    (reset-game snake apple)
-		    (JOptionPane/showMessageDialog frame "You win!"))
-		  (.repaint this))
-		(keyPressed [e] 
-		  (update-direction snake (dirs (.getKeyCode e))))
-		(keyReleased [e])
-		(keyTyped [e]))
+	panel (game-panel frame snake apple)
 	timer (Timer. turn-millis panel)]
-    (doto panel 
+    (doto panel ; <label id="code.game.panel"/>
       (.setFocusable true)
       (.addKeyListener panel))
-    (doto frame
+    (doto frame ; <label id="code.game.frame"/>
       (.add panel)
       (.setSize (* width point-size) (* height point-size))
       (.setVisible true))
-    (.start timer)
-    [snake, apple, timer]))
-
+    (.start timer) ; <label id="code.game.timer"/>
+    [snake, apple, timer])) ; <label id="code.game.return"/>
+; END: game
 
