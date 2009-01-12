@@ -3,14 +3,14 @@
 
 ; START: has-run-fn
 (defn has-run? [v]
-  ((:has-run (meta v))))
+  ((:has-run-fn (meta v))))
 ; END: has-run-fn
 
 (def has-run-fn has-run?)
 
 ; START: has-run-macro
 (defmacro has-run? [f]
-  `((:has-run (meta (var ~f)))))
+  `((:has-run-fn (meta (var ~f)))))
 ; END: has-run-macro
 
 ; START: reset
@@ -20,9 +20,11 @@
 
 ; START: deftarget
 (defmacro deftarget [sym doc & forms]
-  (let [has-run (gensym "hr-") reset-fn (gensym "rf-")]
-    `(let [[~has-run ~reset-fn once-fn#] (runonce (fn [] ~@forms))]
-       (def ~(with-meta sym {:doc doc :has-run has-run :reset-fn reset-fn}) 
+  (let [has-run-fn (gensym "hr-") reset-fn (gensym "rf-")]
+    `(let [[~has-run-fn ~reset-fn once-fn#] (runonce (fn [] ~@forms))]
+       (def ~(with-meta 
+	      sym 
+	      {:doc doc :has-run-fn has-run-fn :reset-fn reset-fn}) 
 	    once-fn#))))
 ; END: deftarget
 
@@ -36,7 +38,7 @@
 
 ; START: task-names
 (defn task-names [] 
-  (map symbol (seq (.. ant-project getTaskDefinitions keySet))))
+  (map symbol (sort (.. ant-project getTaskDefinitions keySet))))
 ; END: task-names
 
 ; START: safe-ant-name

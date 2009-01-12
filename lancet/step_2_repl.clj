@@ -27,7 +27,7 @@
 (defn set-property! [inst prop value]
   (let [pd (property-descriptor inst prop)]   ; <label id="sequences.lancet.let"/> 
     (throw-if (nil? pd) (str "No such property " prop)) ; <label id="sequences.lancet.throw-if"/> 
-    (.invoke (. pd getWriteMethod) inst (into-array [value])))) ; <label id="sequences.lancet.into-array"/> 
+    (.invoke (.getWriteMethod pd) inst (into-array [value])))) ; <label id="sequences.lancet.into-array"/> 
 ; END: set-property!
 
 ; START: set-properties!

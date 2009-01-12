@@ -5,6 +5,6 @@
 (defn set-property! [inst prop value]
   (let [pd (property-descriptor inst prop)]   
     (throw-if (nil? pd) (str "No such property " prop)) 
-    (.invoke (. pd getWriteMethod) inst (into-array [value])))) ; <label id="sequences.lancet.value"/> 
+    (.invoke (.getWriteMethod pd) inst (into-array [value])))) ; <label id="sequences.lancet.value"/> 
 ; END: set-property!
 

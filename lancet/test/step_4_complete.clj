@@ -5,7 +5,7 @@
 ;; Predicates
 
 (deftest test-has-run?
-  (def #^{:has-run (fn [] :bang)} fn#)
+  (def #^{:has-run-fn (fn [] :bang)} fn#)
   (is (= :bang (has-run? fn#))))
 
 (deftest test-reset
@@ -13,10 +13,9 @@
   (is (= :zap (reset fn#))))
 
 (deftest test-task-names
-  (let [some-names #{'echo 'mkdir}]
-    (is (= 
-	 (intersection (into #{} (task-names)) some-names) 
-	 some-names))))
+  (is (=
+       (take 6 (task-names))
+       '(ant antcall antstructure apply apt available))))
 
 (deftest test-safe-ant-name
   (is (= (safe-ant-name 'echo) 'echo))

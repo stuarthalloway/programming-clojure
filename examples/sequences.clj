@@ -38,7 +38,6 @@
 (def languages #{"java" "c" "d" "clojure"})
 (def letters #{"a" "b" "c" "d" "e"})
 (def beverages #{"java" "chai" "pop"})
-(def inventors {"java" "gosling", "clojure" "hickey", "ruby" "matz"})
 ; END: sets
 
 (defdemo demo-mutable-re

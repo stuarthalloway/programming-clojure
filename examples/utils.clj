@@ -2,20 +2,12 @@
     (:use [clojure.contrib.duck-streams :only (spit)])
     (:import [java.io BufferedReader InputStreamReader]))
 	  
-(defn make-process [p] (.. Runtime getRuntime (exec (str p))))
-
 (require 'clojure.contrib.test-is)
 (defmacro re-test [test-sym]
   `(do
      (require :reload-all '~test-sym)
      (clojure.contrib.test-is/run-tests '~test-sym)))
   
-(defn exec [cmdline]
- (let [r (BufferedReader.
-	  (InputStreamReader.
-	   (.getInputStream (make-process cmdline))))]
-   (dorun (map println (line-seq r)))))
-
 (defn classloader-seq 
   ([] (classloader-seq (clojure.lang.RT/baseLoader)))
   ([cl] 

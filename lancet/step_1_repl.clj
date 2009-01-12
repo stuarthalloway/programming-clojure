@@ -1,5 +1,4 @@
-(ns lancet.step-1-repl
-    (:use clojure.contrib.except))
+(ns lancet.step-1-repl)
 
 ; START: ant-project
 (def
@@ -25,6 +24,7 @@
 ; END: instantiate-task
 
 ; START: safe-instantiate-task
+(use '[clojure.contrib.except :only (throw-if)])
 (defn safe-instantiate-task [project name]
   (let [task (.createTask project name)]
     (throw-if (nil? task) 

@@ -48,7 +48,7 @@
 (defn set-property! [inst prop value]
   (let [pd (property-descriptor inst prop)]
     (throw-if (nil? pd) (str "No such property " prop))
-    (let [write-method (. pd getWriteMethod)
+    (let [write-method (.getWriteMethod pd)
 	  dest-class (get-property-class write-method)]
       (.invoke write-method inst (into-array [(coerce dest-class value)])))))
 ; END: set-property

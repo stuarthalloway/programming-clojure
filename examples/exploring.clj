@@ -115,7 +115,7 @@
 ; END:greet-author-2
 
 ; START:ellipsize
-(use '[clojure.contrib.str-utils :only (re-split)]) 
+(use '[clojure.contrib.str-utils :only (re-split str-join)]) 
 (defn ellipsize [words]
   (let [[w1 w2 w3] (re-split #"\s" words)]
     (str-join " " [w1 w2 w3 "..."])))
