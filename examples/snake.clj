@@ -6,7 +6,8 @@
 ; part of normal Clojure style
 
 (ns examples.snake
-  (:import (java.awt Color) (javax.swing JPanel JFrame Timer JOptionPane)
+  (:import (java.awt Color Dimension) 
+	   (javax.swing JPanel JFrame Timer JOptionPane)
            (java.awt.event ActionListener KeyListener))
   (:use clojure.contrib.import-static
 	[clojure.contrib.seq-utils :only (includes?)]))
@@ -69,8 +70,7 @@
 
 ; START: lose?
 (defn head-overlaps-body? [{[head & body] :body}]
-  ; have proposed to SS that argument order be reversed:
-  (includes? head body))
+  (includes? body head))
 
 (def lose? head-overlaps-body?)
 ; END: lose?
@@ -144,6 +144,9 @@
       (.repaint this))
     (keyPressed [e] ; <label id="code.game-panel.keyPressed"/>
       (update-direction snake (dirs (.getKeyCode e))))
+    (getPreferredSize [] 
+      (Dimension. (* (inc width) point-size) 
+		  (* (inc height) point-size)))
     (keyReleased [e])
     (keyTyped [e])))
 ; END: game-panel
@@ -160,7 +163,7 @@
       (.addKeyListener panel))
     (doto frame ; <label id="code.game.frame"/>
       (.add panel)
-      (.setSize (* width point-size) (* height point-size))
+      (.pack)
       (.setVisible true))
     (.start timer) ; <label id="code.game.timer"/>
     [snake, apple, timer])) ; <label id="code.game.return"/>
