@@ -34,33 +34,31 @@
 
 (defn sample-snippets []
   (with-connection db
-    (transaction
      (drop-snippets)
      (create-snippets)
-     (insert-snippets))))
+     (insert-snippets)))
 
 (defn reset-snippets []
   (with-connection db
-    (transaction
      (drop-snippets)
-     (create-snippets))))
+     (create-snippets)))
 
 (defn ensure-snippets-table-exists []
   (try
    (with-connection db (create-snippets))
-   (catch java.sql.BatchUpdateException _)))
+   (catch Exception _)))
   
 
 ; START: print-snippets
 (defn print-snippets []
-  (with-results res "select * from snippets"
+  (with-query-results res ["select * from snippets"]
     (println res)))
 ; END: print-snippets
  
 ; START: broken-select-snippets
 ; Broken!
 (defn select-snippets []
-  (with-results res "select * from snippets" res))
+  (with-query-results res ["select * from snippets"] res))
 ; END: broken-select-snippets
 (def broken-select-snippets select-snippets)
 
@@ -71,12 +69,12 @@
 ; START: select-snippets
 (defn select-snippets []
   (with-connection db
-    (with-results res "select * from snippets" (doall res))))
+    (with-query-results res ["select * from snippets"] (doall res))))
 ; END: select-snippets
 
 ; START: sql-query
 (defn sql-query [q]
-  (with-results res q (doall res)))
+  (with-query-results res [q] (doall res)))
 ; END: sql-query
 
 (defn select-snippet [id]
