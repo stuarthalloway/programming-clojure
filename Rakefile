@@ -2,7 +2,7 @@
 task :build_compojure do
   Dir.chdir ENV["COMPOJURE_HOME"] do
     system "git pull"
-    system "ant"
+    system "ant clean jar" # Clojure compiler changes may necessitate a clean
   end
 end
 
@@ -16,7 +16,7 @@ end
 task :build_clojure_contrib do
   Dir.chdir ENV["CLOJURE_CONTRIB_HOME"] do
     system "git svn rebase"
-    system "ant"
+    system "ant clean jar" # Clojure compiler changes may necessitate a clean
   end
 end
 
