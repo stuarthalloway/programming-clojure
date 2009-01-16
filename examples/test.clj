@@ -9,7 +9,7 @@
 	    :sequences :index-of-any :life-without-multi :multimethods.default
 	    :macros :macros.chain-1 :macros.chain-2 :macros.chain-3 :macros.chain-4
 	    :macros.chain-5 :lazy-index-of-any :macros.bench-1
-	    :concurrency :functional :snake]))
+	    :concurrency :functional :snake :snippet]))
 
 (def lancet-tests 
      (map #(symbol (str "lancet.test." (name %)))

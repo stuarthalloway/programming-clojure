@@ -74,12 +74,12 @@
 
 ; START: sql-query
 (defn sql-query [q]
-  (with-query-results res [q] (doall res)))
+  (with-query-results res q (doall res)))
 ; END: sql-query
 
 (defn select-snippet [id]
   (with-connection db
-    (first (sql-query (str "select * from snippets where id = " (coerce Integer id))))))
+    (first (sql-query ["select * from snippets where id = ?" (coerce Integer id)]))))
 
 ; START: last-created-id
 (defn last-created-id 
@@ -87,7 +87,7 @@
    that performed an insert. Expects HSQLDB return structure of
    the form [{:@p0 id}]."
   []
-  (first (vals (first (sql-query "CALL IDENTITY()")))))
+  (first (vals (first (sql-query ["CALL IDENTITY()"])))))
 ; END: last-created-id
 
 ; START: insert-snippet
