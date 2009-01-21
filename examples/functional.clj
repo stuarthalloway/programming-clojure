@@ -1,6 +1,7 @@
 (ns examples.functional)
 
 ; START: stack-consuming-fibo
+; bad idea
 (defn stack-consuming-fibo [n]
   (cond
    (= n 0) 0 ; <label id="code.stack-consuming-fibo.0"/>
@@ -9,7 +10,7 @@
 ; END: stack-consuming-fibo
 
 ; START: tail-recursive-fibo
-; beware: still consumes stack!
+; also bad: still consumes stack!
 (defn tail-recursive-fibo [n]
   (cond
    (= n 0) 0
@@ -23,6 +24,7 @@
 ; END: tail-recursive-fibo
 
 ; START: loop-recur-fibo    
+; better but not great
 (defn loop-recur-fibo [n]
   (cond
    (= n 0) 0
@@ -35,7 +37,8 @@
 ; END: loop-recur-fibo
 
 ; START: fibo-series
-; returns series to n (heap-consuming!)
+; returns series to n 
+; still bad (heap-consuming!)
 (defn fibo-series [count]
   (let [n (dec count)]
     (cond
@@ -60,33 +63,6 @@
 (def head-fibo (lazy-cat [0 1] (map + head-fibo (rest head-fibo))))
 ; END: head-fibo
 
-; inspired by http://www.cs.uni.edu/~wallingf/patterns/recursion.html
-(defn symbol-replace [coll oldsym newsym]
-  (if (empty? coll)
-    ()
-    (let [f (first coll)]
-      (if (symbol? f)
-	(lazy-cons (if (= f oldsym) newsym f)
-		   (symbol-replace (rest coll) oldsym newsym))
-	(lazy-cons (symbol-replace f oldsym newsym)
-		   (symbol-replace (rest coll) oldsym newsym))))))
-      
-(declare h-male h-female)
-(defn h-male [n]
-  (if (= n 0)
-    0
-    (- n (h-female (h-male (dec n))))))
-
-(defn h-female [n]		 
-  (if (= n 0)
-    1
-    (- n (h-male (h-female (dec n))))))
-(def h-male (memoize h-male))
-(def h-female (memoize h-female))
-
-(def h-male-seq (map h-male (iterate inc 0)))
-(def h-female-seq (map h-female (iterate inc 0)))
-
 ; START: count-heads-pairs
 (defn count-heads-pairs [coll]
   (loop [cnt 0 coll coll] ; <label id="code.count-heads-loop.loop"/>
@@ -110,21 +86,29 @@
 (defn count-heads-pairs [coll]
   (count (filter (fn [pair] (every? #(= :h %) pair)) 
 		 (by-pairs coll))))
+; END: count-heads-by-pairs
 (def count-heads-by-pairs count-heads-pairs)
-; START: count-heads-by-pairs
 
-(def
-#^{:doc "Count items matching a predicate."
-   :arglists '([pred coll])}
-count-if (comp count filter))
+; START: count-if
+(use '[clojure.contrib.def :only (defvar)])
+(defvar count-if (comp count filter)  "Count items matching a filter")
+; END: count-if
 
+; START: count-runs
 (defn
  count-runs
  "Count runs of length n where pred is true in coll."
  [n pred coll]
  (count-if #(every? pred %) (partition n 1 coll)))
+; END: count-runs
 
+; START: count-heads-by-runs
+(defvar count-heads-pairs (partial count-runs 2 #(= % :h))
+  "Count runs of length two that are both heads")
+; END: count-heads-by-runs
+(def count-heads-by-runs count-heads-pairs)
 
+; START: my-odd-even
 (declare my-odd? my-even?)
 
 (defn my-odd? [n]
@@ -136,15 +120,32 @@ count-if (comp count filter))
   (if (= n 0)
     true
     (my-odd? (dec n))))
+; END: my-odd-even
 
-(defn my-parity? [parity n]
-  (if (= n 0)
-    (= parity 0)
-    (recur (- 1 parity) (dec n))))
+; START: parity
+(defn parity [n]
+  (loop [n n par 0]
+    (if (= n 0)
+      par
+      (recur (dec n) (- 1 par)))))
+; END: parity
 
-(def my-even-2? (partial my-parity? 0))
-(def my-odd-2? (partial my-parity? 1))
+; START: my-odd-even-parity
+(defn my-even? [n] (= 0 (parity n)))
+(defn my-odd? [n] (= 1 (parity n)))
+; END: my-odd-even-parity
 
+; START: curry
+; almost a curry
+(defn curry [f]
+  (fn [& front] 
+    (fn [& back]
+      (apply f (concat front back)))))
+; END: curry
+
+; --------------------------------------------------------------------------------------
+; -- See www.cs.brown.edu/~sk/Publications/Papers/Published/sk-automata-macros/paper.pdf
+; --------------------------------------------------------------------------------------
 (defn machine [stream]
    (let [step {[:init 'c] :more
                [:more 'a] :more
@@ -175,5 +176,4 @@ count-if (comp count filter))
   (when-not (seq stream) true))
 
 
-
-       
+	      
