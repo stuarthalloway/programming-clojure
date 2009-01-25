@@ -1,5 +1,9 @@
 (ns examples.server.step-2
-  (:use [compojure html http jetty file-utils] 
+  (:use [compojure.http helpers routes servlet]
+        [compojure.html form-helpers page-helpers]
+	compojure.html
+        compojure.server.jetty
+        compojure.file-utils 
         examples.snippet))
 
 ; START: new-snippet
@@ -44,7 +48,6 @@
   (ANY "*"
     (page-not-found)))
 
-(use 'compojure.jetty)
 (defserver snippet-server
   {:port 8080}
   "/*" snippet-servlet)

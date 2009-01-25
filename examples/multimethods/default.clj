@@ -1,7 +1,7 @@
 (ns examples.multimethods.default)
 
 ; START: multimethod-default
-(defmulti my-print class :everything-else)
+(defmulti my-print class :default :everything-else)
 (defmethod my-print String [s]
   (.write *out* s))
 (defmethod my-print :everything-else [_]

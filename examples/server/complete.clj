@@ -1,5 +1,9 @@
 (ns examples.server.complete
-  (:use [compojure html http jetty file-utils] 
+  (:use [compojure.http helpers routes servlet]
+        [compojure.html form-helpers page-helpers]
+	compojure.html
+        compojure.server.jetty
+        compojure.file-utils 
         examples.snippet))
 
 (defn layout [title & body]
