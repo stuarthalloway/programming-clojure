@@ -17,9 +17,11 @@
     <tstamp/>
     <mkdir dir="${build}"/>
   </target>
-
+  
+  <!-- START: target -->
   <target name="compile-java" depends="init"
           description="Compile Java sources.">
+  <!-- END: target -->
     <javac srcdir="${jsrc}" destdir="${build}" includeJavaRuntime="yes"
            debug="true" target="1.5"/>
   </target>
@@ -41,20 +43,6 @@
   <target name="clojure" depends="compile-clojure"
           description="Create clojure jar file.">
     <jar jarfile="${clojure_jar}" basedir="${build}">
-      <fileset dir="${cljsrc}" includes="**/*.clj"/>
-      <manifest>
-        <attribute name="Main-Class" value="clojure.main"/>
-        <attribute name="Class-Path" value="."/>
-      </manifest>
-    </jar>
-  </target>
-
-  <target name="clojure-slim" depends="compile-java"
-          description="Create clojure-slim jar file (omits compiled Clojure code)">
-    <jar jarfile="${slim_jar}">
-      <fileset dir="${build}" includes="clojure/asm/**"/>
-      <fileset dir="${build}" includes="clojure/lang/**"/>
-      <fileset dir="${build}" includes="clojure/main.class"/>
       <fileset dir="${cljsrc}" includes="**/*.clj"/>
       <manifest>
         <attribute name="Main-Class" value="clojure.main"/>
