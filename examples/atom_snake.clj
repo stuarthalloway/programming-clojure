@@ -2,7 +2,7 @@
 ; Abhishek Reddy's snake: http://www.plt1.com/1070/even-smaller-snake/
 ; Mark Volkmann's snake: http://www.ociweb.com/mark/programming/ClojureSnake.html 
 
-(ns examples.fsnake
+(ns examples.atom-snake
   (:import (java.awt Color Dimension) 
 	   (javax.swing JPanel JFrame Timer JOptionPane)
            (java.awt.event ActionListener KeyListener))
@@ -59,10 +59,12 @@
 (defn eats? [{[snake-head] :body} {apple :location}]
    (= snake-head apple))
 
+; START: update-positions
 (defn update-positions [{snake :snake, apple :apple, :as game}]
   (if (eats? snake apple)
     (merge game {:apple (create-apple) :snake (move snake :grow)})
     (merge game {:snake (move snake)})))
+; END: update-positions
 
 (defn update-direction [{snake :snake :as game} newdir]
   (merge game {:snake (turn snake newdir)}))
@@ -80,30 +82,32 @@
 
 (defmulti paint (fn [g object & _] (:type object)))
 
-(defmethod paint :apple [g {:keys [location color]}] ; <label id="code.paint.apple"/>
+(defmethod paint :apple [g {:keys [location color]}] 
   (fill-point g location color))
 
-(defmethod paint :snake [g {:keys [body color]}] ; <label id="code.paint.snake"/>
+(defmethod paint :snake [g {:keys [body color]}] 
   (doseq [point body]
     (fill-point g point color)))
 
 (defn game-panel [frame game]
   (proxy [JPanel ActionListener KeyListener] []
-    (paintComponent [g] ; <label id="code.game-panel.paintComponent"/>
+    (paintComponent [g] 
       (proxy-super paintComponent g)
       (paint g (@game :snake))
       (paint g (@game :apple)))
-    (actionPerformed [e] ; <label id="code.game-panel.actionPerformed"/>
-      (dosync (alter game update-positions))
+    ; START: swap!
+    (actionPerformed [e] 
+      (swap! game update-positions)
       (when (lose? (@game :snake))
-	(dosync (alter game reset-game))
+	(swap! game reset-game)
 	(JOptionPane/showMessageDialog frame "You lose!"))
+    ; END: swap!
       (when (win? (@game :snake))
-	(dosync (alter game reset-game))
+	(swap! game reset-game)
 	(JOptionPane/showMessageDialog frame "You win!"))
       (.repaint this))
-    (keyPressed [e] ; <label id="code.game-panel.keyPressed"/>
-      (dosync (alter game update-direction (dirs (.getKeyCode e)))))
+    (keyPressed [e] 
+      (swap! game update-direction (dirs (.getKeyCode e))))
     (getPreferredSize [] 
       (Dimension. (* (inc width) point-size) 
 		  (* (inc height) point-size)))
@@ -111,17 +115,17 @@
     (keyTyped [e])))
 
 (defn game [] 
-  (let [game (ref (reset-game {}))
+  (let [game (atom (reset-game {}))
 	frame (JFrame. "Snake")
 	panel (game-panel frame game)
 	timer (Timer. turn-millis panel)]
-    (doto panel ; <label id="code.game.panel"/>
+    (doto panel 
       (.setFocusable true)
       (.addKeyListener panel))
-    (doto frame ; <label id="code.game.frame"/>
+    (doto frame 
       (.add panel)
       (.pack)
       (.setVisible true))
-    (.start timer) ; <label id="code.game.timer"/>
-    [game, timer])) ; <label id="code.game.return"/>
+    (.start timer) 
+    [game, timer])) 
 
