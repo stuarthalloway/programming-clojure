@@ -26,12 +26,12 @@
  (let [proj (org.apache.tools.ant.Project.)             
        logger (org.apache.tools.ant.NoBannerLogger.)]
    (doto logger                                         
-     (setMessageOutputLevel org.apache.tools.ant.Project/MSG_INFO)
-     (setOutputPrintStream System/out)
-     (setErrorPrintStream System/err))
+     (.setMessageOutputLevel org.apache.tools.ant.Project/MSG_INFO)
+     (.setOutputPrintStream System/out)
+     (.setErrorPrintStream System/err))
    (doto proj                                           
-     (init)     
-     (addBuildListener logger))))
+     (.init)     
+     (.addBuildListener logger))))
 
 (defn property-descriptor [inst prop-name]
   (first
@@ -60,9 +60,8 @@
   (let [task (.createTask project name)]
     (throw-if (nil? task) (str "No task named " name))
     (doto task
-      (init)
-      (setProject project)) 
-    (set-properties! task props) 
-    task))
+      (.init)
+      (.setProject project)) 
+      (set-properties! props))) 
 
 

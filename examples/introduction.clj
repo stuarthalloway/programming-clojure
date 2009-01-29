@@ -27,11 +27,13 @@
 (def visitors (ref #{}))
 ; START:hello
 (defn hello [username]
-  (let [past-visitor (@visitors username)]    ; <label id="code.hello.past-visitor"/>
-    (dosync (commute visitors conj username)) ; <label id="code.hello.commute"/>
-    (if past-visitor                      		; <label id="code.hello.if"/>
-      (str "Welcome back, " username)
-      (str "Hello, " username))))             ; <label id="code.hello.else"/>
+  (dosync 
+    (let [past-visitor (@visitors username)]    ; <label id="code.hello.past-visitor"/>
+      (alter visitors conj username)            ; <label id="code.hello.alter"/>  
+      (if past-visitor                      	; <label id="code.hello.if"/>
+	(str "Welcome back, " username)
+	(str "Hello, " username)))))            ; <label id="code.hello.else"/>
 ; END:hello
+
 (def hello-with-memory hello)
 

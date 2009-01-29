@@ -83,7 +83,9 @@
 
 (deftest test-ellipsize
   (is (= "This had better ..."
-	 (ellipsize "This had better work!"))))
+	 (ellipsize "This had better work!")))
+  (is (= "This had better ..."
+	 (ellipsize "This     had     better    work     too!"))))
 
 ; START: thrown
 (deftest test-divide-by-zero
