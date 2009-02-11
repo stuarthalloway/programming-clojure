@@ -25,15 +25,15 @@
 (deftest test-property-setters
   (let [bean (Logger/getAnonymousLogger)]
     (is (nil? (.getLevel bean)))
-    (set-property! bean "level" Level/SEVERE)
+    (set-property! bean :level Level/SEVERE)
     (is (= (.getLevel bean) Level/SEVERE))
     (set-properties! bean {:level Level/INFO})
     (is (= (.getLevel bean) Level/INFO))))
   
 (deftest test-property-descriptor
   (let [bean (Logger/getAnonymousLogger)]
-    (is (nil? (property-descriptor bean "foobar")))
-    (is (not (nil? (property-descriptor bean "level")))))) 
+    (is (nil? (property-descriptor bean :foobar)))
+    (is (not (nil? (property-descriptor bean :level)))))) 
 
 
 

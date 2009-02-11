@@ -20,7 +20,7 @@
 (deftest test-recently-modified?
   (let [now #(System/currentTimeMillis)
 	recent (proxy [File] ["recent"] (lastModified [] (now)))
-	older (proxy [File] ["older"] (lastModified [] (- (now) (minutes 1000))))]
+	older (proxy [File] ["older"] (lastModified [] (- (now) (minutes-to-millis 1000))))]
     (are (= _1 _2)
      (recently-modified? recent) true
      (recently-modified? older) false

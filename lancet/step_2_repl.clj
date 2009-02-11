@@ -17,7 +17,7 @@
 (import '(java.beans Introspector))
 (defn property-descriptor [inst prop-name]
   (first
-   (filter #(= prop-name (.getName %)) 
+   (filter #(= (name prop-name) (.getName %)) 
 	   (.getPropertyDescriptors 
 	    (Introspector/getBeanInfo (class inst))))))
 ; END: property-descriptor
@@ -32,7 +32,7 @@
 
 ; START: set-properties!
 (defn set-properties! [inst prop-map]
-  (doseq [[k v] prop-map] (set-property! inst (name k) v))) 
+  (doseq [[k v] prop-map] (set-property! inst k v))) 
 ; END: set-properties!
 
 ; START: instantiate-task

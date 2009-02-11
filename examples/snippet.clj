@@ -1,5 +1,13 @@
-(ns examples.snippet
-  (:use [clojure.contrib.sql]))
+(ns examples.snippet)
+
+; START: create-snippets
+(use 'clojure.contrib.sql)
+(defn create-snippets []
+  (create-table :snippets
+    [:id :int "IDENTITY" "PRIMARY KEY"]
+    [:body :varchar "NOT NULL"]
+    [:created_at :datetime]))
+; END: create-snippets
 
 ; START: db
 ; replace "snippet-db" with a full path!
@@ -12,14 +20,6 @@
   (try
    (drop-table :snippets)
    (catch Exception e)))
-
-; START: create-snippets
-(defn create-snippets []
-  (create-table :snippets
-    [:id :int "IDENTITY" "PRIMARY KEY"]
-    [:body :varchar "NOT NULL"]
-    [:created_at :datetime]))
-; END: create-snippets
 
 ; START: insert-snippets
 (defn now [] (java.sql.Timestamp. (.getTime (java.util.Date.)))) 

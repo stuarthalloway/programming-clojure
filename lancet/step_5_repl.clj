@@ -35,7 +35,7 @@
 
 (defn property-descriptor [inst prop-name]
   (first
-   (filter #(= prop-name (.getName %)) 
+   (filter #(= (name prop-name) (.getName %)) 
 	   (.getPropertyDescriptors 
 	    (Introspector/getBeanInfo (class inst))))))
 
@@ -54,7 +54,7 @@
 ; END: set-property
 
 (defn set-properties! [inst prop-map]
-  (doseq [[k v] prop-map] (set-property! inst (name k) v))) 
+  (doseq [[k v] prop-map] (set-property! inst k v))) 
 
 (defn instantiate-task [project name props]
   (let [task (.createTask project name)]

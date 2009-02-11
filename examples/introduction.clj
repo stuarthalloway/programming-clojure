@@ -26,7 +26,10 @@
 
 (def visitors (ref #{}))
 ; START:hello
-(defn hello [username]
+(defn hello 
+  "Writes hello message to *out*. Calls you by username.
+  Knows if you have been here before."
+  [username]
   (dosync 
     (let [past-visitor (@visitors username)]    ; <label id="code.hello.past-visitor"/>
       (alter visitors conj username)            ; <label id="code.hello.alter"/>  

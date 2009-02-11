@@ -54,10 +54,11 @@
 )
 
 ; START:filter      
-(defn minutes [mins] (* mins 1000 60))
+(defn minutes-to-millis [mins] (* mins 1000 60))
 
 (defn recently-modified? [file]
-  (> (.lastModified file) (- (System/currentTimeMillis) (minutes 30))))
+  (> (.lastModified file) 
+     (- (System/currentTimeMillis) (minutes-to-millis 30))))
 ; END:filter
 
 ; START:clojure-loc

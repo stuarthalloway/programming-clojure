@@ -21,7 +21,7 @@
 
 ; START: unless-4
 (defmacro bad-unless [expr form]
-  (list 'if 'expr 'nil form))
+  (list 'if 'expr nil form))
 ; END: unless-4
 
 ; START: with-out-str-as-fn
