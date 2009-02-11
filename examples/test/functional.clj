@@ -9,12 +9,12 @@
   (is (= ten-fibs (map stack-consuming-fibo (range 0 10))))
   (is (thrown? StackOverflowError (stack-consuming-fibo 1000000))))
 
-(deftest test-tail-recursive-fibo
-  (is (= ten-fibs (map tail-recursive-fibo (range 0 10))))
-  (is (thrown? StackOverflowError (tail-recursive-fibo 1000000))))
+(deftest test-tail-fibo
+  (is (= ten-fibs (map tail-fibo (range 0 10))))
+  (is (thrown? StackOverflowError (tail-fibo 1000000))))
 
-(deftest test-loop-recur-fibo
-  (is (= ten-fibs (map loop-recur-fibo (range 0 10)))))
+(deftest test-recur-fibo
+  (is (= ten-fibs (map recur-fibo (range 0 10)))))
 
 (deftest test-fibo-series
   (is (= ten-fibs (fibo-series 10))))

@@ -1,18 +1,18 @@
 (ns examples.trampoline)
 
-; START: tail-recursive-fibo
+; START: trampoline-fibo
 ; Example only. Don't write code like this.
-(defn tail-recursive-fibo [n]
+(defn trampoline-fibo [n]
+  (let [fib (fn fib [f-2 f-1 current]
+	      (let [f (+ f-2 f-1)]
+		(if (= n current) 
+		  f
+		  #(fib f-1 f (inc current)))))] ; <label id="code.trampoline.function"/>
   (cond
    (= n 0) 0
    (= n 1) 1
-   true ((fn fib [f-2 f-1 current]
-	   (let [f (+ f-2 f-1)]
-	     (if (= n current) 
-	       f
-	       #(fib f-1 f (inc current))))) ; <label id="code.tail-recursive-fibo.trampoline"/>
-	 0 1 2)))
-; END: tail-recursive-fibo
+   :else (fib 0 1 2))))
+; END: trampoline-fibo
 
 ; START: odd-even
 (declare my-odd? my-even?)

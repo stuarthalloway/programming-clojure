@@ -25,6 +25,10 @@
  
 ; START: add-message
 (defn add-message [msg]
-  (dosync (commute messages conj msg)))
+  (dosync (alter messages conj msg)))
 ; END: add-message
 
+; START: add-message-commute
+(defn add-message-commute [msg]
+  (dosync (commute messages conj msg)))
+; END: add-message-commute

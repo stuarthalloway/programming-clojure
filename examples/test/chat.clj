@@ -16,6 +16,12 @@
   (is (= '({:sender "jdoe" :text "goodbye"}) @c/messages))
 )
 
+(deftest add-message-commute
+  (dosync (ref-set c/messages ()))
+  (c/add-message-commute (struct c/message "jdoe" "goodbye"))
+  (is (= '({:sender "jdoe" :text "goodbye"}) @c/messages))
+)
+
 (deftest validate-message-list
   (is (true? (c/validate-message-list ())))
   (is (true? (c/validate-message-list '({:sender "X" :text "Y"}))))
