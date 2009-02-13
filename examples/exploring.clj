@@ -89,9 +89,9 @@
 ; END:make-greeter
 
 ; START:square-corners
-(defn square-corners [bottom left width]
-  (let [top (+ bottom width)
-	right (+ left width)]
+(defn square-corners [bottom left size]
+  (let [top (+ bottom size)
+	right (+ left size)]
     [[bottom left] [top left] [top right] [bottom right]]))
 ; END:square-corners
 

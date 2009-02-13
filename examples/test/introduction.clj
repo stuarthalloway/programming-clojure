@@ -3,6 +3,7 @@
   (:use examples.introduction))
 
 (deftest test-blank?
+  (is (blank? nil))
   (is (blank? ""))
   (is (blank? " "))
   (is (false? (blank? "boo")))

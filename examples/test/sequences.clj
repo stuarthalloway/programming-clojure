@@ -34,6 +34,13 @@
    (select #(= 1 (.length %)) languages) #{"c" "d"}
 ))
 
+(deftest test-joins
+  (are (= _1 _2)
+   (join composers nations {:country :nation})
+   #{{:language "German", :nation "Austria", :composer "W. A. Mozart", :country "Austria"} 
+     {:language "German", :nation "Germany", :composer "J. S. Bach", :country "Germany"} 
+     {:language "Italian", :nation "Italy", :composer "Giuseppe Verdi", :country "Italy"}}))
+
 ; TODO: add metadata to mark demo functions?
 (deftest run-demos
   (demo-map-builders)

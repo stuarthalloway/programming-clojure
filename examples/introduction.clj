@@ -1,9 +1,7 @@
 (ns examples.introduction)
 
 ; START:blank
-(defmulti blank? class)
-(defmethod blank? String [s] (every? #(Character/isWhitespace %) s))
-(defmethod blank? nil [_] true)
+(defn blank? [s] (every? #(Character/isWhitespace %) s))
 ; END:blank
 
 (def accounts (ref #{}))
@@ -32,10 +30,11 @@
   [username]
   (dosync 
     (let [past-visitor (@visitors username)]    ; <label id="code.hello.past-visitor"/>
-      (alter visitors conj username)            ; <label id="code.hello.alter"/>  
-      (if past-visitor                      	; <label id="code.hello.if"/>
-	(str "Welcome back, " username)
-	(str "Hello, " username)))))            ; <label id="code.hello.else"/>
+      (if past-visitor                      	
+	(str "Welcome back, " username)         ; <label id="code.hello.if"/>
+	(do 
+	  (alter visitors conj username)        ; <label id="code.hello.alter"/>  
+	  (str "Hello, " username))))))         ; <label id="code.hello.else"/>
 ; END:hello
 
 (def hello-with-memory hello)

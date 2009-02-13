@@ -10,14 +10,19 @@
 
 ; START:compositions
 (def compositions 
- #{{:name "The Art of the Fugue" :composer "J. S. Bach"}
-   {:name "Musical Offering" :composer "J. S. Bach"}
-   {:name "Requiem" :composer "Giuseppe Verdi"}
-   {:name "Requiem" :composer "W. A. Mozart"}})
-(def countries
- #{{:composer "J. S. Bach" :country "Germany"}
-   {:composer "W. A. Mozart" :country "Austria"}
-   {:composer "Giuseppe Verdi" :country "Italy"}})
+  #{{:name "The Art of the Fugue" :composer "J. S. Bach"}
+    {:name "Musical Offering" :composer "J. S. Bach"}
+    {:name "Requiem" :composer "Giuseppe Verdi"}
+    {:name "Requiem" :composer "W. A. Mozart"}})
+(def composers
+  #{{:composer "J. S. Bach" :country "Germany"}
+    {:composer "W. A. Mozart" :country "Austria"}
+    {:composer "Giuseppe Verdi" :country "Italy"}})
+(def nations
+  #{{:nation "Germany" :language "German"}
+    {:nation "Austria" :language "German"}
+    {:nation "Italy" :language "Italian"}})
+
 ; END:compositions
 
 ; TODO: add pretty-print that works with book margins.
@@ -45,11 +50,9 @@
 ; don't do this!
 (let [m (re-matcher #"\w+" "the quick brown fox")]
   (loop [match (re-find m)]
-    (if (nil? match)
-      nil
-      (do
-	(println match)
-	(recur (re-find m))))))
+    (when match
+      (println match)
+      (recur (re-find m)))))
 ; END:mutable-re
 )
 
