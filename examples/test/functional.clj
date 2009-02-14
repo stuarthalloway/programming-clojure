@@ -25,6 +25,11 @@
 (deftest test-head-fibo 
   (is (= ten-fibs (take 10 head-fibo))))
 
+(deftest test-faux-curry
+  (is (fn? (faux-curry + 1)))
+  (is (fn? ((faux-curry + 1) 1)))
+  (is (= 2 (((faux-curry + 1) 1)))))
+
 (deftest test-count-heads-pairs
   (doseq [count-fn [count-heads-loop count-heads-by-pairs count-heads-by-runs]]
       (are (= _1 _2)

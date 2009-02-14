@@ -1,6 +1,7 @@
 (ns examples.interop)
 
 ; START:sum-to
+; performance demo only, don't write code like this
 (defn sum-to [n]
   (loop [i 1 sum 0]
     (if (<= i n)
@@ -28,7 +29,7 @@
 
 (defn better-sum-to [n]
   (reduce + (range 1 (inc n))))
-     
+
 (defn best-sum-to [n]
   (/ (* n (inc n)) 2))
 ; TODO: a better timer?

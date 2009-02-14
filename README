@@ -5,7 +5,7 @@ Copyright 2008 Stuart Halloway.
 All rights reserved. 
 
 -------------------------------------------------------------------------------
-API CHANGES SINCE BETA 5 OF THE BOOK:
+API CHANGES FROM BETA 5 TO BETA 6 OF THE BOOK:
 
 clojure.contrib.sql:
 * with-query is now with-query-results, query passed as vector
@@ -15,13 +15,13 @@ DEPENDENCIES
 
 This version of the sample code has been tested with:
 
-Clojure SVN revision 1232
-svn co -r 1232 http://clojure.googlecode.com/svn/trunk/ clojure    
+Clojure SVN revision 1279
+svn co -r 1279 http://clojure.googlecode.com/svn/trunk/ clojure    
 
-Clojure-Contrib SVN revision 411:
-svn co -r 411 http://clojure-contrib.googlecode.com/svn/trunk/ clojure-contrib     
+Clojure-Contrib SVN revision 459:
+svn co -r 459 http://clojure-contrib.googlecode.com/svn/trunk/ clojure-contrib     
 
-Compojure GIT commit 13f5eb0
+Compojure GIT commit 0c8eff9
 
 -------------------------------------------------------------------------------
 You can run the completed Compojure example with

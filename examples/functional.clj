@@ -139,10 +139,7 @@
 
 ; START: curry
 ; almost a curry
-(defn curry [f]
-  (fn [& front] 
-    (fn [& back]
-      (apply f (concat front back)))))
+(defn faux-curry [& args] (apply partial partial args))
 ; END: curry
 
 ; --------------------------------------------------------------------------------------
