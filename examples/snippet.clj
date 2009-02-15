@@ -24,12 +24,12 @@
 ; START: insert-snippets
 (defn now [] (java.sql.Timestamp. (.getTime (java.util.Date.)))) 
 (defn insert-snippets []
-  (let [created_at (now)]
+  (let [timestamp (now)]
     (seq 
      (insert-values :snippets
       [:body :created_at]		     
-      ["(println :boo)" created_at]
-      ["(defn foo [] 1)" created_at]))))
+      ["(println :boo)" timestamp]
+      ["(defn foo [] 1)" timestamp]))))
 ; END: insert-snippets
 
 (defn sample-snippets []

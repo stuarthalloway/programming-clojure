@@ -40,8 +40,8 @@
 )
 
 (deftest test-index-of-any
-  (is (= nil (index-of-any "abc" #{\d \e \f \g})))
-  (is (= 1 (index-of-any "add" #{\d \e \f \g})))
+  (is (= nil (index-of-any #{\d \e \f \g} "abc")))
+  (is (= 1 (index-of-any #{\d \e \f \g} "add")))
 )
 
 (deftest test-greeting

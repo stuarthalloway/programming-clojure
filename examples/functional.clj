@@ -6,7 +6,8 @@
   (cond
    (= n 0) 0 ; <label id="code.stack-consuming-fibo.0"/>
    (= n 1) 1 ; <label id="code.stack-consuming-fibo.1"/>
-   :else (+ (stack-consuming-fibo (- n 1)) (stack-consuming-fibo (- n 2))))) ; <label id="code.stack-consuming-fibo.n"/>
+   :else (+ (stack-consuming-fibo (- n 1))    ; <label id="code.stack-consuming-fibo.n"/>
+	    (stack-consuming-fibo (- n 2))))) 
 ; END: stack-consuming-fibo
 
 ; START: tail-fibo

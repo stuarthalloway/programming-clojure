@@ -1,5 +1,7 @@
-(ns lancet.step-4-repl
-    (:use lancet.step-2-complete lancet.step-3-complete))
+(ns lancet.step-4-repl)
+; START: use
+(use 'lancet.step-2-complete 'lancet.step-3-complete)
+; END: use
 
 ; START: has-run-fn
 (defn has-run? [v]
@@ -43,7 +45,7 @@
 
 ; START: safe-ant-name
 (defn safe-ant-name [n]
-  (if (ns-resolve 'clojure.core n) (symbol (str "ant-" n)) n))
+  (if (resolve n) (symbol (str "ant-" n)) n))
 ; END: safe-ant-name
 
 ; START: define-all-ant-tasks

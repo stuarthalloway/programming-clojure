@@ -3,7 +3,8 @@
     (:import (java.beans Introspector)))
 
 ; START: coerce
-(defmulti coerce (fn [dest-class src-inst] [dest-class (class src-inst)]))
+(defmulti coerce 
+  (fn [dest-class src-inst] [dest-class (class src-inst)]))
 ; END: coerce
 
 ; START: coerce-file
@@ -50,7 +51,8 @@
     (throw-if (nil? pd) (str "No such property " prop))
     (let [write-method (.getWriteMethod pd)
 	  dest-class (get-property-class write-method)]
-      (.invoke write-method inst (into-array [(coerce dest-class value)])))))
+      (.invoke 
+       write-method inst (into-array [(coerce dest-class value)])))))
 ; END: set-property
 
 (defn set-properties! [inst prop-map]

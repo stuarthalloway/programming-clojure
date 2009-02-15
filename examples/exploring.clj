@@ -48,12 +48,18 @@
     (recur (conj result x) (dec x))))
 ; END:countdown
 
+; START: indexed
+(defn indexed [coll] (map vector (iterate inc 0) coll))
+; END: indexed
+; START: index-filter
+(defn index-filter [pred coll]
+  (when pred 
+    (for [[idx elt] (indexed coll) :when (pred elt)] idx)))
+; END: index-filter
 ; START:index-of-any
-(defn indexed [s] (map vector (iterate inc 0) s))
-(defn index-of-any [s chars]
-  (some (fn [[idx char]] (if (get chars char) idx)) 
-	(indexed s)))
-; END:index-of-any
+(defn index-of-any [pred coll]
+  (first (index-filter pred coll)))
+; END: index-of-any
 
 ; START:greeting
 (defn greeting 
