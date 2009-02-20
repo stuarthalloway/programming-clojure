@@ -4,8 +4,6 @@
 (def src "src")
 (def build "classes")
 
-(default-target :compile)
-
 (deftarget init
 	(tstamp)
 	(mkdir {:dir build}))

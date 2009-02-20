@@ -13,15 +13,6 @@
   ([] (.nextDouble *random*))
   ([n] (* n (.nextDouble *random*))))
 
-; you can try this one to see that thread-local rand 
-; (above) is not the limiting factor
-;(defn waste-time []
-;  (set! *random* (reduce + (take 100 (iterate inc 1)))))
-  
-;(defn tl-rand
-;  ([] (waste-time) 0.5)
-;  ([n] (* n (tl-rand))))
-
 (defn random-point []
   (let [random-coord (fn [] (dec (tl-rand 2)))]
     [(random-coord) (random-coord)]))
@@ -39,7 +30,6 @@
 
 (defmethod run-simulation [java.util.Map Number]
   [results n] 
-  (println "Running on " (Thread/currentThread))
   (binding [*random* (java.util.Random. (next-seed))]
     (reduce (fn [{in-circle :in-circle total :total} point]
 	      (struct sample-results 
@@ -56,12 +46,19 @@
 (defmethod guess-pi Number [n]
   (guess-pi (run-simulation n)))
 
-; START: pguess-pi
 (defn parallel-guess-pi [agent-count trials]
   (let [trials (quot trials agent-count)
 	agents (for [_ (range agent-count)] (agent trials))]
     (doseq [a agents] (send a run-simulation))
     (apply await agents)
     (guess-pi (apply merge-with + (map deref agents)))))
-; END: pguess-pi
 
+; runs an agent forever
+(defn background-pi [iter-count]
+  (let [agt (agent {:in-circle 0 :total 0})
+	continue (atom true)
+	iter (fn sim [a-val]
+	       (when continue (send-off *agent* sim))
+	       (run-simulation a-val iter-count))]
+    (send-off agt iter)
+    {:guesser agt :continue atom}))

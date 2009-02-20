@@ -1,5 +1,7 @@
 (ns examples.memoized-male-female)
 
+; Hofstadter's Male and Female Sequences from GEB
+; See http://en.wikipedia.org/wiki/Hofstadter_sequence
 (declare m f)
 (defn- m [n]
   (if (= n 0)
