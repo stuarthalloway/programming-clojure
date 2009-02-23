@@ -19,8 +19,8 @@
 (deftest test-fibo-series
   (is (= ten-fibs (fibo-series 10))))
 
-(deftest test-lazy-cons-fibo
-  (is (= ten-fibs (take 10 (lazy-cons-fibo)))))
+(deftest test-lazy-seq-fibo
+  (is (= ten-fibs (take 10 (lazy-seq-fibo)))))
 
 (deftest test-head-fibo 
   (is (= ten-fibs (take 10 head-fibo))))

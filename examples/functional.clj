@@ -54,12 +54,15 @@
      :else (fib [0 1] 2)))) 
 ; END: fibo-series
 
-; START: lazy-cons-fibo
-(defn lazy-cons-fibo []
-  ((fn fib [a b] ; <label id="code.lazy-cons.fib"/>
-     (lazy-cons a (fib b (+ a b)))) ; <label id="code.lazy-cons.recur"/>
-   0 1)) ; <label id="code.lazy-cons.basis"/>
-; END: lazy-cons-fibo
+; START: lazy-seq-fibo
+(defn lazy-seq-fibo 
+  ([] 
+     (concat [0 1] (lazy-seq-fibo 0 1)))
+  ([a b]
+     (let [n (+ a b)]
+       (lazy-seq
+	(cons n (lazy-seq-fibo b n))))))
+; END: lazy-seq-fibo
 
 ; START: head-fibo
 ; holds the head (avoid!)
@@ -80,9 +83,11 @@
 
 ; START: by-pairs
 (defn by-pairs [coll]
-  (let [pair (take 2 coll)] ; <label id="code.by-pairs.take"/>
-    (when (= 2 (count pair)) ; <label id="code.by-pairs.count"/>
-      (lazy-cons pair (by-pairs (rest coll)))))) ; <label id="code.by-pairs.lazy"/>
+  (let [take-pair (fn take-pair [c]
+		    (when (next c) (take 2 c)))]
+    (lazy-seq
+     (when-let [pair (seq (take-pair coll))]
+	 (cons pair (by-pairs (rest coll)))))))
 ; END: by-pairs
 
 ; START: count-heads-by-pairs

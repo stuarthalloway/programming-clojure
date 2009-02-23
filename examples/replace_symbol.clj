@@ -6,10 +6,10 @@
 (defmulti replace-symbol coll-or-scalar) ; <label id="code.replace-symbol.multi"/>
 
 (defmethod replace-symbol :collection [coll oldsym newsym]
-  (if (empty? coll)
-    coll
-    (lazy-cons (replace-symbol (first coll) oldsym newsym) ; <label id="code.replace-symbol.lazy-cons"/>
-	       (replace-symbol (rest coll) oldsym newsym))))
+  (lazy-seq
+   (when-let [s (seq coll)]
+    (cons (replace-symbol (first coll) oldsym newsym) ; <label id="code.replace-symbol.lazy-cons"/>
+	  (replace-symbol (rest coll) oldsym newsym)))))
 
 (defmethod replace-symbol :scalar [obj oldsym newsym] 
   (if (= obj oldsym) newsym obj))
