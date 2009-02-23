@@ -54,15 +54,15 @@
      :else (fib [0 1] 2)))) 
 ; END: fibo-series
 
-; START: lazy-seq-fibo
-(defn lazy-seq-fibo 
+; START: fibo
+(defn fibo 
   ([] 
-     (concat [0 1] (lazy-seq-fibo 0 1)))
+     (concat [0 1] (fibo 0 1)))
   ([a b]
      (let [n (+ a b)]
        (lazy-seq
-	(cons n (lazy-seq-fibo b n))))))
-; END: lazy-seq-fibo
+	(cons n (fibo b n))))))
+; END: fibo
 
 ; START: head-fibo
 ; holds the head (avoid!)
