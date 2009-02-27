@@ -6,9 +6,9 @@
 (defmulti replace-symbol coll-or-scalar) ; <label id="code.replace-symbol.multi"/>
 
 (defmethod replace-symbol :collection [coll oldsym newsym]
-  (lazy-seq
+  (lazy-seq ; <label id="code.replace-symbol.lazy-seq"/>
    (when-let [s (seq coll)]
-    (cons (replace-symbol (first coll) oldsym newsym) ; <label id="code.replace-symbol.lazy-cons"/>
+    (cons (replace-symbol (first coll) oldsym newsym) 
 	  (replace-symbol (rest coll) oldsym newsym)))))
 
 (defmethod replace-symbol :scalar [obj oldsym newsym] 

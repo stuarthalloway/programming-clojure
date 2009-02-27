@@ -9,10 +9,8 @@
 ; END: messages      
 
 ; START: validate-message-list
-(defn validate-message-list [lst]
-  (if (not-every? #(and (:sender %) (:text %)) lst)
-    (throw (IllegalStateException. "Not a valid message"))
-    true))
+(def validate-message-list
+  (partial every? #(and (:sender %) (:text %))))
 
 (def messages (ref () :validator validate-message-list))
 ; END: validate-message-list

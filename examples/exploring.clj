@@ -116,8 +116,8 @@
 ; END:greet-author-1
 
 ; START:greet-author-2
-(defn greet-author-2 [{first-name :first-name}]
-  (println "Hello," first-name))
+(defn greet-author-2 [{fname :first-name}]
+  (println "Hello," fname))
 ; END:greet-author-2
 
 ; START:ellipsize

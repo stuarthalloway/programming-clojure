@@ -25,7 +25,7 @@
 (deftest validate-message-list
   (is (true? (c/validate-message-list ())))
   (is (true? (c/validate-message-list '({:sender "X" :text "Y"}))))
-  (is (thrown? IllegalStateException (c/validate-message-list '({}))))
+  (is (false? (c/validate-message-list '({}))))
 )
 
   
