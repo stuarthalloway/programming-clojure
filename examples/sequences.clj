@@ -68,7 +68,7 @@
 (use '[clojure.contrib.duck-streams :only (reader)])
 (defn non-blank? [line] (if (re-find #"\S" line) true false))
 
-(defn non-svn? [file] (not (.startsWith (.toString file) ".svn")))
+(defn non-svn? [file] (not (.contains (.toString file) ".svn")))
 
 (defn clojure-source? [file] (.endsWith (.toString file) ".clj"))
 

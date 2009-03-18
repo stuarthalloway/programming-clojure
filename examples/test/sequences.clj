@@ -10,6 +10,8 @@
 (deftest test-clojure-loc
   (are (= _1 _2)
    (non-svn? ".svn") false
+   (non-svn? "/foo/bar/.svn") false
+   (non-svn? ".svn/foo/bar") false
    (non-svn? "foo") true
    (clojure-source? "foo.clj") true
    (clojure-source? "foo.java") false

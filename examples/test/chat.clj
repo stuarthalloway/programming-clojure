@@ -25,7 +25,7 @@
 (deftest validate-message-list
   (is (true? (c/validate-message-list ())))
   (is (true? (c/validate-message-list '({:sender "X" :text "Y"}))))
-  (is (false? (c/validate-message-list '({}))))
+  (is (nil? (c/validate-message-list '({}))))
 )
 
   
