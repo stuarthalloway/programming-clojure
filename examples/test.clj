@@ -19,6 +19,7 @@
 	    :step-2-repl :step-2-complete
 	    :step-3-repl :step-3-complete
 	    :step-4-repl :step-4-complete
+	    :step-5-repl :step-5-complete
 	    :deftarget-1]))
 
 (def all-tests (concat examples-tests lancet-tests))

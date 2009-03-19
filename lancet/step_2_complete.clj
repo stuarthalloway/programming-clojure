@@ -34,8 +34,8 @@
     (throw-if (nil? task) (str "No task named " name))
     (doto task
       (.init)
-      (.setProject project)) 
-    (set-properties! task props) 
+      (.setProject project)
+      (set-properties! props))
     task))
 
 

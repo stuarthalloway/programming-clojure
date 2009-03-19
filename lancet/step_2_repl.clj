@@ -41,8 +41,8 @@
     (throw-if (nil? task) (str "No task named " name))
     (doto task
       (.init)
-      (.setProject project)) 
-    (set-properties! task props) ; <label id="sequences.lancet.set-props"/>
+      (.setProject project)
+      (set-properties! props)) 
     task))
 ; END: safe-instantiate-task
 
