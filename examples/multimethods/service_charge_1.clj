@@ -6,7 +6,7 @@
 (clojure.core/use 'clojure.core)
 
 ; START:service-charge
-; BAD APPROACH
+; bad approach
 (defmulti service-charge account-level)
 (defmethod service-charge ::Basic [acct]
   (if (= (:tag acct) ::Checking) 25 10))
