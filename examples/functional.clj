@@ -11,48 +11,25 @@
 ; END: stack-consuming-fibo
 
 ; START: tail-fibo
-; also bad: still consumes stack!
 (defn tail-fibo [n]
-  (let [fib (fn fib [f-2 f-1 current] ; <label id="code.tail-fibo.args"/>
-	      (let [f (+ f-2 f-1)]
-		(if (= n current) ; <label id="code.tail-fibo.term"/>
-		  f
-	       (fib f-1 f (inc current)))))] ; <label id="code.tail-fibo.recur"/>
-    (cond
-     (= n 0) 0
-     (= n 1) 1
-     :else (fib 0 1 2)))) ; <label id="code.tail-fibo.basis"/>
+  (letfn [(fib ; <label id="code.tail-fibo.letfn"/>
+	   [current next n] ; <label id="code.tail-fibo.args"/>
+	   (if (zero? n)
+	     current       ; <label id="code.tail-fibo.terminate"/>
+	     (fib next (+ current next) (dec n))))] ; <label id="code.tail-fibo.recur"/>
+    (fib 0 1 n))) ; <label id="code.tail-fibo.call"/>
 ; END: tail-fibo
 
 ; START: recur-fibo    
 ; better but not great
 (defn recur-fibo [n]
-  (let [fib (fn [f-2 f-1 current]
-	      (let [f (+ f-2 f-1)]
-		(if (= n current)
-		  f
-	       (recur f-1 f (inc current)))))]  ; <label id="code.recur-fibo.recur"/>
-  (cond
-   (= n 0) 0
-   (= n 1) 1
-   :else (fib 0 1 2))))
+  (letfn [(fib 
+	   [current next n]
+	   (if (zero? n)
+	     current
+	     (recur next (+ current next) (dec n))))] ; <label id="code.recur-fibo.recur"/>
+    (fib 0 1 n)))
 ; END: recur-fibo
-
-; START: fibo-series
-; returns series to n 
-; still bad (heap-consuming!)
-(defn fibo-series [count]
-  (let [n (dec count)
-	fib (fn [series current] ; <label id="code.fibo-series.series"/>
-	      (let [f (+ (series (- current 1)) (series (- current 2)))]
-		(if (= current n)
-		  (conj series f) ; <label id="code.fibo-series.term"/>
-		  (recur (conj series f) (inc current)))))] ; <label id="code.fibo-series.recur"/>
-    (cond
-     (= n 0) [0] ; <label id="code.fibo-series.0"/>
-     (= n 1) [0 1] ; <label id="code.fibo-series.1"/>
-     :else (fib [0 1] 2)))) 
-; END: fibo-series
 
 ; START: lazy-seq-fibo
 (defn lazy-seq-fibo 
@@ -88,7 +65,7 @@
 
 ; START: by-pairs
 (defn by-pairs [coll]
-  (let [take-pair (fn take-pair [c]                 ; <label id="code.by-pairs.take"/>
+  (let [take-pair (fn [c]                           ; <label id="code.by-pairs.take"/>
 		    (when (next c) (take 2 c)))]
     (lazy-seq                                       ; <label id="code.by-pairs.lazy-seq"/>
      (when-let [pair (seq (take-pair coll))]        ; <label id="code.by-pairs.when-let"/>

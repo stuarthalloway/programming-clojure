@@ -16,9 +16,6 @@
 (deftest test-recur-fibo
   (is (= ten-fibs (map recur-fibo (range 0 10)))))
 
-(deftest test-fibo-series
-  (is (= ten-fibs (fibo-series 10))))
-
 (deftest test-fibo
   (is (= ten-fibs (take 10 (fibo)))))
 

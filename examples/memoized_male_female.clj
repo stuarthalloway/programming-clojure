@@ -4,12 +4,12 @@
 ; See http://en.wikipedia.org/wiki/Hofstadter_sequence
 (declare m f)
 (defn- m [n]
-  (if (= n 0)
+  (if (zero? n)
     0
     (- n (f (m (dec n))))))
 
 (defn- f [n]		 
-  (if (= n 0)
+  (if (zero? n)
     1
     (- n (m (f (dec n))))))
 
