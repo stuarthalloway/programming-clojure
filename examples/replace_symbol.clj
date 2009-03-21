@@ -7,7 +7,7 @@
 
 (defmethod replace-symbol :collection [coll oldsym newsym]
   (lazy-seq ; <label id="code.replace-symbol.lazy-seq"/>
-   (when-let [s (seq coll)]
+   (when (seq coll)
     (cons (replace-symbol (first coll) oldsym newsym) 
 	  (replace-symbol (rest coll) oldsym newsym)))))
 

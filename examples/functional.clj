@@ -56,7 +56,7 @@
   (loop [cnt 0 coll coll] ; <label id="code.count-heads-loop.loop"/>
     (if (empty? coll) ; <label id="code.count-heads-loop.basis"/>
       cnt
-      (recur (if (and (= :h (first coll)) (= :h (second coll))) ; <label id="code.count-heads-loop.filter"/>
+      (recur (if (= :h (first coll) (second coll)) ; <label id="code.count-heads-loop.filter"/>
 	       (inc cnt)
 	       cnt)
 	     (rest coll)))))
@@ -64,6 +64,7 @@
 (def count-heads-loop count-heads-pairs)
 
 ; START: by-pairs
+; overly complex, better approaches follow...
 (defn by-pairs [coll]
   (let [take-pair (fn [c]                           ; <label id="code.by-pairs.take"/>
 		    (when (next c) (take 2 c)))]
