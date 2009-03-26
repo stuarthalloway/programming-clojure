@@ -10,7 +10,7 @@
 	    :macros :macros.chain-1 :macros.chain-2 :macros.chain-3 :macros.chain-4
 	    :macros.chain-5 :lazy-index-of-any :macros.bench-1
 	    :concurrency :functional :snake :snippet :replace-symbol 
-	    :wallingford :trampoline
+	    :wallingford :trampoline :tasklist
 	    :male-female :memoized-male-female :male-female-seq]))
 
 (def lancet-tests 
