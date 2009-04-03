@@ -22,6 +22,10 @@
 	       (map (memfn getURLs)
 		    (apply classloader-seq args)))))
 
+(defmacro show-publics [ns]
+  `(doseq [p# (ns-publics (quote ~ns))]
+     (println (first p#))))
+     
 ; TODO: update book or add to Clojure
 (defmacro ?.
   "like .. but drops out on null object"
@@ -55,3 +59,7 @@
 		   (prn ~form)
 		   (println))))
 	    forms)))
+
+(defn jar-urls [dir]
+  (map #(.toURL %) 
+       (filter #(re-find #"jar$" (.getName %)) (.listFiles (java.io.File. dir)))))

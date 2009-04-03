@@ -60,7 +60,7 @@
 
 ; START: turn
 (defn turn [snake newdir] 
-  (if newdir (assoc snake :dir newdir) snake))
+  (assoc snake :dir newdir))
 ; END: turn
 
 ; START: win?
@@ -95,7 +95,7 @@
 
 ; START: update-direction
 (defn update-direction [snake newdir]
-  (dosync (alter snake turn newdir)))
+  (when newdir (dosync (alter snake turn newdir))))
 ; END: update-direction
 
 ; START: reset-game

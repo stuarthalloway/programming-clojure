@@ -2,5 +2,5 @@
 ; START: chain
 (defmacro chain
   ([x form] `(. ~x ~form))
-  ([x form & rest] `(chain (. ~x ~form) ~@rest)))
+  ([x form & more] `(chain (. ~x ~form) ~@more)))
 ; END: chain
