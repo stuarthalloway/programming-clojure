@@ -1,20 +1,18 @@
 (ns examples.server.step-1)
 
-; START: defservlet
-(use '[compojure.http servlet routes helpers])
-(defservlet snippet-servlet
+; START: defroutes
+(use 'compojure)
+(defroutes snippet-app
   "Create and view snippets."
   (GET "/ping" "pong")
 
   (ANY "*"
     (page-not-found)))
-; END: defservlet
+; END: defroutes
 
-; START: defserver
-(use 'compojure.server.jetty)
-(defserver snippet-server
-  {:port 8080}
-  "/*" snippet-servlet)
-; END: defserver
+; START: run-server
+(run-server {:port 8080}
+  "/*" (servlet snippet-app))
+; END: run-server
 
 

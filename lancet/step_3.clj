@@ -1,6 +1,3 @@
-(ns lancet.step-3-complete)
-
-; START: runonce
 (defn runonce
  "Create a function that will only run once. All other invocations
  return the first calculated value. The function can have side effects.
@@ -8,8 +5,8 @@
  [function]
  (let [sentinel (Object.) 
        result (atom sentinel)
-       reset-fn (fn [] (reset! result sentinel) nil) ; <label id="concurrency.lancet.reset-fn"/>
-       has-run? #(not= @result sentinel)] ; <label id="concurrency.lancet.has-run"/>
+       reset-fn (fn [] (reset! result sentinel)) 
+       has-run? #(not= @result sentinel)] 
    [has-run?
     reset-fn
     (fn [& args]
@@ -17,8 +14,6 @@
 	(if (= @result sentinel) 
 	  (reset! result (function)) 
 	  @result)))]))
-; END: runonce
-
 
 
 

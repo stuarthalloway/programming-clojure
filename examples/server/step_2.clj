@@ -1,15 +1,10 @@
 (ns examples.server.step-2
-  (:use [compojure.http helpers routes servlet]
-        [compojure.html form-helpers page-helpers]
-	compojure.html
-        compojure.server.jetty
-        compojure.file-utils 
-        examples.snippet))
+  (:use compojure examples.snippet))
 
 ; START: new-snippet
 (defn new-snippet []
   (html
-    (form-to [POST "/"]
+    (form-to [:post "/"]
       (text-area {:rows 20 :cols 73} "body")
       [:br]
       (submit-button "Save"))))
@@ -30,7 +25,7 @@
      [:div (:created_at snippet)])))
 ; END: show-snippet
 
-(defservlet snippet-servlet
+(defroutes snippet-app
   "Create and view snippets."
   (GET "/ping" "Pong")
 
@@ -39,7 +34,7 @@
      (new-snippet))
 
   (GET "/:id"
-     (show-snippet (route :id)))
+     (show-snippet (params :id)))
 
   (POST "/"
     (create-snippet (:body params)))	
@@ -48,9 +43,8 @@
   (ANY "*"
     (page-not-found)))
 
-(defserver snippet-server
-  {:port 8080}
-  "/*" snippet-servlet)
+(run-server {:port 8080}
+  "/*" (servlet snippet-app))
 
 
 
