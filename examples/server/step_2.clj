@@ -43,6 +43,7 @@
   (ANY "*"
     (page-not-found)))
 
+(ensure-snippets-table-exists)
 (run-server {:port 8080}
   "/*" (servlet snippet-app))
 
