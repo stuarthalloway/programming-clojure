@@ -9,13 +9,13 @@ DEPENDENCIES
 
 This version of the sample code has been tested with:
 
-Clojure SVN revision 1334
-svn co -r 1299 http://clojure.googlecode.com/svn/trunk/ clojure    
+Clojure SVN revision 1371
+svn co -r 1371 http://clojure.googlecode.com/svn/trunk/ clojure    
 
-Clojure-Contrib SVN revision 602:
-svn co -r 505 http://clojure-contrib.googlecode.com/svn/trunk/ clojure-contrib     
+Clojure-Contrib SVN revision 837:
+svn co -r 837 http://clojure-contrib.googlecode.com/svn/trunk/ clojure-contrib     
 
-Compojure GIT commit 0fa49377
+Compojure GIT commit 78c2d84
 
 -------------------------------------------------------------------------------
 You can run the completed Compojure example with
