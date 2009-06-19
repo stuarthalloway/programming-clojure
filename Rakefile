@@ -8,15 +8,15 @@ end
 
 task :build_clojure do
   Dir.chdir ENV["CLOJURE_HOME"] do
-    system "git svn rebase"
+    system "git pull"
     system "ant jar"
   end
 end
 
 task :build_clojure_contrib do
   Dir.chdir ENV["CLOJURE_CONTRIB_HOME"] do
-    system "git svn rebase"
-    system "ant clean jar" # Clojure compiler changes may necessitate a clean
+    system "git pull"
+    system "ant -Dclojure.jar=../clojure/clojure.jar clean jar" # Clojure compiler changes may necessitate a clean
   end
 end
 
