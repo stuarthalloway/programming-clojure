@@ -25,7 +25,7 @@
 (def visitors (ref #{}))
 ; START:hello
 (defn hello 
-  "Writes hello message to *out*. Calls you by username.
+  "Returns a hello message, calling you by username.
   Knows if you have been here before."
   [username]
   (dosync 
