@@ -58,7 +58,7 @@
   (let [agt (agent {:in-circle 0 :total 0})
 	continue (atom true)
 	iter (fn sim [a-val]
-	       (when continue (send-off *agent* sim))
+	       (when @continue (send-off *agent* sim))
 	       (run-simulation a-val iter-count))]
     (send-off agt iter)
-    {:guesser agt :continue atom}))
+    {:guesser agt :continue continue}))
