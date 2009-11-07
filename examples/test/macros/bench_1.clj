@@ -4,8 +4,8 @@
 (deftest test-bench-1
   (are (= _1 _2)
    (macroexpand-1 '(examples.macros.bench-1/bench :foo))
-   '(clojure.core/let [examples.macros.bench-1/start (System/nanoTime) 
+   '(clojure.core/let [examples.macros.bench-1/start (java.lang.System/nanoTime) 
 	 	       examples.macros.bench-1/result :foo] 
-      {:elapsed (clojure.core/- (System/nanoTime) examples.macros.bench-1/start), 
+      {:elapsed (clojure.core/- (java.lang.System/nanoTime) examples.macros.bench-1/start), 
        :result examples.macros.bench-1/result})))
 
