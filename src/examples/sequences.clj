@@ -84,7 +84,7 @@
 (defn demo-xml-seq []
 ; START:xml-seq
 (for [x (xml-seq 
-	 (parse (java.io.File. "examples/sequences/compositions.xml")))
+	 (parse (java.io.File. "data/sequences/compositions.xml")))
       :when (= :composition (:tag x))]
   (:composer (:attrs x)))
 ; END:xml-seq

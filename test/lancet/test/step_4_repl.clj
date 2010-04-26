@@ -18,8 +18,8 @@
 
 (deftest test-task-names
   (is (=
-       (take 6 (task-names))
-       '(ant antcall antstructure apply apt available))))
+       (take 4 (task-names))
+       '(ant antcall antstructure apply))))
 
 
 (deftest test-safe-ant-name

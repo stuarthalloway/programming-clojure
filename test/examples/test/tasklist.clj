@@ -5,7 +5,7 @@
 (deftest tasklist-main
   (is (=
        "[init compile-java compile-clojure clojure jar all clean]\n"
-       (with-out-str (examples.tasklist/-main "snippets/example-build.xml"))))
+       (with-out-str (examples.tasklist/-main "data/snippets/example-build.xml"))))
 )
 
 (deftest tasklist-compilation
