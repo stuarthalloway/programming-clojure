@@ -31,4 +31,4 @@
 ; multiple hellos in this chapter. Last one should have a docstring
 (deftest test-hello-has-a-docstring
   (is (= "Writes hello message to *out*. Calls you by username.\n  Knows if you have been here before."
-	 (:doc ^#'hello))))
+	 (:doc (meta #'hello)))))

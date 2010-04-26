@@ -17,7 +17,7 @@
   (is (= "Table not found in statement [select * from snippets]"
 	 (.getMessage (is (thrown? java.sql.SQLException (select-snippets))))))
   (ensure-snippets-table-exists)
-  (is (= () (select-snippets))))
+  (is (nil? (select-snippets))))
 
 
 
