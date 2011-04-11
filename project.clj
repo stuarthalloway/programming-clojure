@@ -10,7 +10,11 @@
                   "0.9.94"]
                  [hsqldb
                   "1.8.0.10"]
-                 [lancet
-                  "1.0.0"]]
+                 [org.apache.ant/ant
+                  "1.7.1"]
+                 [org.apache.ant/ant-nodeps
+                  "1.7.1"]
+                 [org.mortbay.jetty/jetty
+                  "6.1.14"]]
   :dev-dependencies [[org.clojars.rayne/autodoc "0.8.0-SNAPSHOT"]
                      [swank-clojure "1.3.0"]])
