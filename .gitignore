@@ -7,3 +7,6 @@
 /snippet-db.properties
 /snippet-db.script
 /tmp.clj
+lib/*
+.lein-failures
+classes/*

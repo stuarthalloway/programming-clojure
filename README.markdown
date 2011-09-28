@@ -1,17 +1,24 @@
 # Sample Code for Programming Clojure
 
-http://www.pragprog.com/titles/shcloj/programming-clojure
+http://www.pragprog.com/titles/shcloj2/programming-clojure
+Copyright 2011 Stuart Halloway and Aaron Bedra. All rights reserved. 
 
-Copyright 2008-2010 Stuart Halloway. All rights reserved. 
+# Important Notice
+
+If you are reading the first edition of the book sure you grab the
+first-edition branch of this project instead, from
+
+https://github.com/stuarthalloway/programming-clojure/tree/first-edition
+
+The first-edition branch has all the files exactly where the book says they
+will be.
 
 # Getting Started
 
-This (master) branch of the repository has all the files as referenced
-from the book Programming Clojure. All the necessary libraries are
-already installed. You should be able to start a REPL with:
-
-* `bin/repl.sh` (Unix, Mac)
-* `bin\repl.bat` (Windows)
+* Make sure you have Java installed.
+* Make sure you have [leiningen](http://github.com/technomancy/leiningen) installed.
+* Run `lein deps` to install all the dependent libraries.
+* Run `script/repl` to launch a repl.
 
 # Want more Clojure Practice?
 
@@ -23,10 +30,3 @@ for exploring the Clojure language. It includes:
 * an interactive repl for working with the lab exercises
 * solutions with passing tests 
 * up-to-date versions of Clojure, contrib, incanter, compojure and other libraries to explore
-
-# Want Training?
-
-Rich Hickey, the creator of Clojure, and Stuart Halloway, the author
-of Programming Clojure, provide Clojure training through the 
-[Pragmatic Studio](http://pragmaticstudio.com/clojure).
-

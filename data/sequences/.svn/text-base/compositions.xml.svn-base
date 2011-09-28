@@ -1,0 +1,12 @@
+<compositions>
+  <composition composer="J. S. Bach">
+    <name>The Art of the Fugue</name>
+  </composition>
+  <composition composer="J. S. Bach">
+    <name>Musical Offering</name>
+  </composition>
+  <composition composer="W. A. Mozart">
+    <name>Requiem</name>
+  </composition>
+</compositions>
+
