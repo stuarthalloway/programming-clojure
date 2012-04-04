@@ -2,7 +2,7 @@
   :description "Examples from Programming Clojure"
   :aot [examples.tasklist]
   :dependencies [[org.clojure/clojure "1.3.0"]
-                 [org.clojure.contrib/standalone "1.3.0-SNAPSHOT"]
+                 [org.clojure.contrib/standalone "1.3.0-alpha4"]
                  [org.clojure/java.jdbc "0.0.6"]
                  [org.clojure/test.generative "0.1.2"]
                  [ring "0.3.11" :exclusions [org.clojure/clojure
