@@ -7,7 +7,6 @@
            (javax.crypto KeyGenerator Cipher CipherOutputStream
                          CipherInputStream)
            (java.io FileOutputStream)))
-
 (deftype CryptoVault [filename keystore password]
   Vault
   (init-vault [vault]
@@ -22,7 +21,6 @@
   IOFactory
   (make-reader [vault]
     (make-reader (vault-input-stream vault)))
-
   (make-writer [vault]
     (make-writer (vault-output-stream vault))))
                                         ; END: context

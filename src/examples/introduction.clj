@@ -1,8 +1,8 @@
 (ns examples.introduction)
 
 ; START:blank
-(defn blank? [s]
-  (every? #(Character/isWhitespace %) s))
+(defn blank? [str]
+  (every? #(Character/isWhitespace %) str))
 ; END:blank
 
 (def accounts (ref #{}))
@@ -23,20 +23,15 @@
 ; END:hello-docstring
 (def hello-docstring hello)
 
-(def visitors (ref #{}))
+(def visitors (atom #{}))
+
 ; START:hello
 (defn hello 
   "Writes hello message to *out*. Calls you by username.
   Knows if you have been here before."
   [username]
-  (dosync 
-    (let [past-visitor (@visitors username)]    ; <label id="code.hello.past-visitor"/>
-      (if past-visitor                      	
-	(str "Welcome back, " username)         ; <label id="code.hello.if"/>
-	(do 
-	  (alter visitors conj username)        ; <label id="code.hello.alter"/>  
-	  (str "Hello, " username))))))         ; <label id="code.hello.else"/>
+  (swap! visitors conj username)
+  (str "Hello, " username))
 ; END:hello
 
 (def hello-with-memory hello)
-

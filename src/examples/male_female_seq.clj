@@ -1,5 +1,4 @@
-(ns examples.male-female-seq
-  (use [clojure.contrib.def :only (defvar-)]))
+(ns examples.male-female-seq)
 
 (declare m f)
 (defn- m [n]

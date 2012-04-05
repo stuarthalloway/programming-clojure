@@ -1,13 +1,12 @@
 (ns examples.test.snake
-  (:use clojure.test examples.snake))
+  (:use clojure.test
+        examples.snake))
 
 (deftest test-add-points
-  (is (= [2,0] (add-points [1,1] [1,-1])))
-)
+  (is (= [2,0] (add-points [1,1] [1,-1]))))
 
 (deftest test-point-to-screen-rect
-  (is (= [20 50 10 10] (point-to-screen-rect [2,5])))
-)
+  (is (= [20 50 10 10] (point-to-screen-rect [2,5]))))
 
 (deftest test-create-apple
   (let [apple (create-apple)]
@@ -16,7 +15,6 @@
     (is (= (:apple (:type apple))))))
 
 (let [snake (create-snake)]
-  
   (deftest test-move
     (is (= [[2 1]] (:body (move snake))))
     (is (= [[2 1] [1 1]] (:body (move snake :grow)))))
@@ -42,5 +40,4 @@
     (let [eat-me {:location (first (:body snake))}
 	  dont-eat {:location [-1 -1]}]
       (is (eats? snake eat-me))
-      (is (not (eats? snake dont-eat)))))
-)
+      (is (not (eats? snake dont-eat))))))

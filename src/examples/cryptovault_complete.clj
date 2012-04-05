@@ -6,19 +6,16 @@
            (javax.crypto Cipher KeyGenerator CipherOutputStream
                          CipherInputStream)
            (java.io FileInputStream FileOutputStream)))
-
 (defprotocol Vault
   (init-vault [vault])
   (vault-output-stream [vault])
   (vault-input-stream [vault]))
-
 (defn vault-key [vault]
   (let [password (.toCharArray (.password vault))]
     (with-open [fis (FileInputStream. (.keystore vault))]
       (-> (doto (KeyStore/getInstance "JCEKS")
             (.load fis password))
           (.getKey "vault-key" password)))))
-
 (deftype CryptoVault [filename keystore password]
   Vault
   (init-vault [vault]
@@ -45,7 +42,6 @@
   proto/IOFactory
   (make-reader [vault]
     (proto/make-reader (vault-input-stream vault)))
-
   (make-writer [vault]
     (proto/make-writer (vault-output-stream vault))))
 

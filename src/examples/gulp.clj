@@ -1,6 +1,5 @@
 (ns examples.gulp
   (:import (java.io FileInputStream InputStreamReader BufferedReader)))
-
 (defn gulp [src]
   (let [sb (StringBuilder.)]
     (with-open [reader (-> src

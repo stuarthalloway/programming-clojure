@@ -4,7 +4,7 @@
 
 
 (deftest test-demo-xml-seq
-  (is (= (demo-xml-seq) ["J. S. Bach" "J. S. Bach" "W. A. Mozart"])))
+  (is (= (demo-xml-seq) '("J. S. Bach" "F. Chopin" "W. A. Mozart"))))
 
 (deftest test-clojure-loc
   (are [x y] (= x y)

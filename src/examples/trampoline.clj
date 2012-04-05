@@ -11,7 +11,7 @@
   (cond
    (= n 0) 0
    (= n 1) 1
-   :else (fib 0 1 2))))
+   :else (fib 0N 1 2))))
 ; END: trampoline-fibo
 
 ; START: odd-even

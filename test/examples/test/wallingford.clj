@@ -1,5 +1,6 @@
 (ns examples.test.wallingford
-  (:use clojure.test examples.wallingford)) 
+  (:use clojure.test
+        examples.wallingford)) 
 
 (deftest test-replace
   (are [x y] (= x y)

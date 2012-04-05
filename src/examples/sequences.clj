@@ -41,7 +41,6 @@
 
 ; START:sets
 (def languages #{"java" "c" "d" "clojure"})
-(def letters #{"a" "b" "c" "d" "e"})
 (def beverages #{"java" "chai" "pop"})
 ; END: sets
 

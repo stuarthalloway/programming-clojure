@@ -1,7 +1,7 @@
 ; START:ns
 (ns examples.exploring
-    (:require [clojure.string :as str])
-    (:import (java.io File)))
+  (:require [clojure.string :as str])
+  (:import (java.io File)))
 ; END:ns
 
 ; START:date

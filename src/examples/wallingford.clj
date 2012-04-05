@@ -1,14 +1,10 @@
 (ns examples.wallingford
-  (:use [clojure.contrib.def :only (defalias)])
   (:require [examples.replace-symbol :only (deeply-nested)]))
-
-(defalias deeply-nested examples.replace-symbol/deeply-nested)
 
 ; based on http://www.cs.uni.edu/~wallingf/patterns/recursion.html#3
 ; START: replace-symbol
 ; overly-literal port, do not use
 (declare replace-symbol replace-symbol-expression)
-
 (defn replace-symbol [coll oldsym newsym]
   (if (empty? coll)
     ()
@@ -16,7 +12,6 @@
 	   (first coll) oldsym newsym)
 	  (replace-symbol 
 	   (rest coll) oldsym newsym))))
-
 (defn replace-symbol-expression [symbol-expr oldsym newsym]
   (if (symbol? symbol-expr)
     (if (= symbol-expr oldsym)

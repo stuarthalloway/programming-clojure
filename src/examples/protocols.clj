@@ -29,6 +29,7 @@
 (defn make-reader [src]
   (-> (condp = (type src)
           java.io.InputStream src
+          java.lang.String (FileInputStream. src)
           java.io.File (FileInputStream. src)
           java.net.Socket (.getInputStream src)
           java.net.URL (if (= "file" (.getProtocol src))
@@ -44,6 +45,7 @@
   (-> (condp = (type dst)
           java.io.OutputStream dst
           java.io.File (FileOutputStream. dst)
+          java.lang.String (FileOutputStream. dst)
           java.net.Socket (.getOutputStream dst)
           java.net.URL (if (= "file" (.getProtocol dst))
                          (-> dst .getPath FileOutputStream.)
@@ -81,7 +83,6 @@
   IOFactory
   (make-reader [src]
     (make-reader (FileInputStream. src)))
-
   (make-writer [dst]
     (make-writer (FileOutputStream. dst))))
                                         ; END: extend-file
@@ -119,33 +120,32 @@
 
                                         ; START: extend-note
 (import 'javax.sound.midi.MidiSystem)
-
 (extend-type Note
   MidiNote
   (to-msec [this tempo]
     (let [duration-to-bpm {1 240, 1/2 120, 1/4 60, 1/8 30, 1/16 15}]
       (* 1000 (/ (duration-to-bpm (:duration this))
-                 tempo)))))
+                 tempo))))
                                         ; END: extend-note
 
                                         ; START: key-number
-(key-number [this]
-  (let [scale {:C 0,  :C# 1, :Db 1,  :D 2,
-               :D# 3, :Eb 3, :E 4,   :F 5,
-               :F# 6, :Gb 6, :G 7,   :G# 8,
-               :Ab 8, :A 9,  :A# 10, :Bb 10,
-               :B 11}]
-    (+ (* 12 (inc (:octave this)))
-       (scale (:pitch this)))))
+  (key-number [this]
+    (let [scale {:C 0,  :C# 1, :Db 1,  :D 2,
+                 :D# 3, :Eb 3, :E 4,   :F 5,
+                 :F# 6, :Gb 6, :G 7,   :G# 8,
+                 :Ab 8, :A 9,  :A# 10, :Bb 10,
+                 :B 11}]
+      (+ (* 12 (inc (:octave this)))
+         (scale (:pitch this)))))
                                         ; END: key-number
-
+  
                                         ; START: play
-(play [this tempo midi-channel]
-  (let [velocity (or (:velocity this) 64)]
-    (.noteOn midi-channel (key-number this) velocity)
-    (Thread/sleep (to-msec this tempo))))
+  (play [this tempo midi-channel]
+    (let [velocity (or (:velocity this) 64)]
+      (.noteOn midi-channel (key-number this) velocity)
+      (Thread/sleep (to-msec this tempo)))))
                                         ; END: play
-
+  
                                         ; START: perform
 (defn perform [notes & {:keys [tempo] :or {tempo 120}}]
   (with-open [synth (doto (MidiSystem/getSynthesizer) .open)]
