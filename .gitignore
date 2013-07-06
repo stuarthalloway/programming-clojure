@@ -8,4 +8,7 @@
 /tmp.clj
 lib/*
 .lein-failures
+.lein-repl-history
 classes/*
+target/*
+
