@@ -7,20 +7,28 @@
 ; previous values.
 ; For the origins of this version of the sieve, and the notion of a
 ; "wheel", see http://www.cs.hmc.edu/~oneill/papers/Sieve-JFP.pdf
-; The "wheel" is a repeating sequence of offsets from one non-multiple
-; to the next of the initial set of primes ([2 3 5 7] in this instance).
+; The "wheel" is a generalisation of the removal of multiples of 2 from the
+; test for primes. It is a repeating sequence of offsets from one non-multiple
+; to the next of the initial set of primes.
 ; The basis of the cycle is the set of integers from 1 to the lowest common
 ; multiple of the initial set of primes.
-; The L.C.M in this case is 210. The cycle includes one integer
-; (the last) that is the multiple of all the primes (the L.C.M.) and all
-; integers less than the L.C.M. which are multiples of any other combination
-; of the given primes.
-; Only integers which are _not_ factored by these primes will be candidates as
-; prime. The "wheel" gives the offset within a single L.C.M. cycle of the next
-; candidate. It is a generalisation of the removal of multiples of 2 from the
-; test for primes.
+; For example, with an initial set of [2 3], the cycle length is (* 2 3) => 6.
+; The non-multiples in the first set of 6 integers are [1 5]. These are the only
+; candidates as prime. The following sets are simply incremented by the cycle
+; length; so [1 5] [7 11] [13 17].  The increments are 1->5->7->11->13 etc.
+; That is, 4, 2, 4, 2 etc, which is a repeating cycle of [4 2]. With a
+; starting set of [2 3], the first candidate is 5, and the starting point of the
+; increments cycle is 5->7; i.e. 2. So our repeating cycle becomes [2 4], rather
+; than [4 2]. Note that the cycle of increments can be started at whatever point
+; is required, and this applies to cycles of any length.
+; The initial set in this case is [2 3 5 7]. The L.C.M is 210, and the increment
+; cycle begins 1->11->13->17->19->23->29->31; i.e. 10, 2, 4, 2, 4, 6, 2.
+; Because our starting point is always the first candidate following the last of
+; the starting set, we always skip the first increment, which will recur at the
+; beginning of the next cycle.  So the wheel starts [2 4 2 4 6 2...] and ends
+; with the wrap-around to 10.
 ; The same offsets will apply to all subsequent cycles of 210 integers;
-; hence wheel is defined as a cycle on the vector if candidate offsets.
+; hence wheel is defined as a cycle on the vector of candidate offsets.
 (def primes
   (concat
     [2 3 5 7]
@@ -49,7 +57,7 @@
             (->> _1st-primes
                  ;; vector of one mult-cycle for each initial prime
                  (reduce conj-mult-cycles [])
-                 ;; a multiple (true) at any position in the cycle sets
+                 ;; a multiple (true) at any position in the cycle sets the
                  ;; corresponding position true in the resulting lazy-seq
                  (apply map #(some identity %&))
                  ;; only need lowest common multiple plus 1.
