@@ -1,7 +1,7 @@
 (defproject programming-clojure "1.3.0"
   :description "Examples from Programming Clojure"
   :aot [examples.tasklist]
-  :dependencies [[org.clojure/clojure "1.4.0"]
+  :dependencies [[org.clojure/clojure "1.5.1"]
                  [org.clojure/java.jdbc "0.0.6"]
                  [org.clojure/test.generative "0.1.2"]
                  [ring "0.3.11" :exclusions [org.clojure/clojure
