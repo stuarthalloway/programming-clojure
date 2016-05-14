@@ -54,8 +54,7 @@
 
 ; START: index-filter
 (defn index-filter [pred coll]
-  (when pred 
-    (for [[idx elt] (indexed coll) :when (pred elt)] idx)))
+  (for [[idx elt] (indexed coll) :when (pred elt)] idx))
 ; END: index-filter
 ; START:index-of-any
 (defn index-of-any [pred coll]
