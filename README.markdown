@@ -17,8 +17,7 @@ will be.
 
 * Make sure you have Java installed.
 * Make sure you have [leiningen](http://github.com/technomancy/leiningen) installed.
-* Run `lein deps` to install all the dependent libraries.
-* Run `script/repl` to launch a repl.
+* Run `lein repl` to launch a repl.
 
 # Want more Clojure Practice?
 
