@@ -13,5 +13,3 @@
 ; START: run-server
 (run-jetty routes {:port 8080 :join? false})
 ; END: run-server
-
-

@@ -9,8 +9,8 @@
 (defstruct account :id :balance)
 
 ; START:hello-world
-(defn hello-world [username] 
-  (println (format "Hello, %s" username)))  
+(defn hello-world [username]
+  (println (format "Hello, %s" username)))
 ; END:hello-world
 
 (def fibs (lazy-cat [0 1] (map + fibs (rest fibs))))
@@ -26,7 +26,7 @@
 (def visitors (atom #{}))
 
 ; START:hello
-(defn hello 
+(defn hello
   "Writes hello message to *out*. Calls you by username.
   Knows if you have been here before."
   [username]

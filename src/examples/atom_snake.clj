@@ -1,12 +1,13 @@
 ; Inspired by the snakes the have gone before:
 ; Abhishek Reddy's snake: http://www.plt1.com/1070/even-smaller-snake/
-; Mark Volkmann's snake: http://www.ociweb.com/mark/programming/ClojureSnake.html 
+; Mark Volkmann's snake: http://www.ociweb.com/mark/programming/ClojureSnake.html
 
 (ns examples.atom-snake
-  (:import (java.awt Color Dimension) 
-	   (javax.swing JPanel JFrame Timer JOptionPane)
-           (java.awt.event ActionListener KeyListener))
-  (:use examples.import-static))
+  (:require [examples.import-static :refer :all])
+  (:import [java.awt Color Dimension]
+           [java.awt.event ActionListener KeyListener]
+           [javax.swing JFrame JOptionPane JPanel Timer]))
+
 (import-static java.awt.event.KeyEvent VK_LEFT VK_RIGHT VK_UP VK_DOWN)
 
 ; ----------------------------------------------------------
@@ -17,34 +18,34 @@
 (def point-size 10)
 (def turn-millis 75)
 (def win-length 5)
-(def dirs { VK_LEFT  [-1  0] 
+(def dirs { VK_LEFT  [-1  0]
             VK_RIGHT [ 1  0]
-            VK_UP    [ 0 -1] 
+            VK_UP    [ 0 -1]
 	    VK_DOWN  [ 0  1]})
 
-(defn add-points [& pts] 
+(defn add-points [& pts]
   (vec (apply map + pts)))
 
-(defn point-to-screen-rect [pt] 
-  (map #(* point-size %) 
+(defn point-to-screen-rect [pt]
+  (map #(* point-size %)
        [(pt 0) (pt 1) 1 1]))
 
-(defn create-apple [] 
+(defn create-apple []
   {:location [(rand-int width) (rand-int height)]
    :color (Color. 210 50 90)
-   :type :apple}) 
+   :type :apple})
 
 (defn create-snake []
-  {:body (list [1 1]) 
+  {:body (list [1 1])
    :dir [1 0]
    :type :snake
    :color (Color. 15 160 70)})
 
 (defn move [{:keys [body dir] :as snake} & grow]
-  (assoc snake :body (cons (add-points (first body) dir) 
+  (assoc snake :body (cons (add-points (first body) dir)
 			   (if grow body (butlast body)))))
 
-(defn turn [snake newdir] 
+(defn turn [snake newdir]
   (if newdir (assoc snake :dir newdir) snake))
 
 (defn win? [{body :body}]
@@ -74,28 +75,28 @@
 ; ----------------------------------------------------------
 ; gui
 ; ----------------------------------------------------------
-(defn fill-point [g pt color] 
+(defn fill-point [g pt color]
   (let [[x y width height] (point-to-screen-rect pt)]
-    (.setColor g color) 
+    (.setColor g color)
     (.fillRect g x y width height)))
 
 (defmulti paint (fn [g object & _] (:type object)))
 
-(defmethod paint :apple [g {:keys [location color]}] 
+(defmethod paint :apple [g {:keys [location color]}]
   (fill-point g location color))
 
-(defmethod paint :snake [g {:keys [body color]}] 
+(defmethod paint :snake [g {:keys [body color]}]
   (doseq [point body]
     (fill-point g point color)))
 
 (defn game-panel [frame game]
   (proxy [JPanel ActionListener KeyListener] []
-    (paintComponent [g] 
+    (paintComponent [g]
       (proxy-super paintComponent g)
       (paint g (@game :snake))
       (paint g (@game :apple)))
     ; START: swap!
-    (actionPerformed [e] 
+    (actionPerformed [e]
       (swap! game update-positions)
       (when (lose? (@game :snake))
 	(swap! game reset-game)
@@ -105,26 +106,25 @@
 	(swap! game reset-game)
 	(JOptionPane/showMessageDialog frame "You win!"))
       (.repaint this))
-    (keyPressed [e] 
+    (keyPressed [e]
       (swap! game update-direction (dirs (.getKeyCode e))))
-    (getPreferredSize [] 
-      (Dimension. (* (inc width) point-size) 
+    (getPreferredSize []
+      (Dimension. (* (inc width) point-size)
 		  (* (inc height) point-size)))
     (keyReleased [e])
     (keyTyped [e])))
 
-(defn game [] 
+(defn game []
   (let [game (atom (reset-game {}))
 	frame (JFrame. "Snake")
 	panel (game-panel frame game)
 	timer (Timer. turn-millis panel)]
-    (doto panel 
+    (doto panel
       (.setFocusable true)
       (.addKeyListener panel))
-    (doto frame 
+    (doto frame
       (.add panel)
       (.pack)
       (.setVisible true))
-    (.start timer) 
-    [game, timer])) 
-
+    (.start timer)
+    [game, timer]))

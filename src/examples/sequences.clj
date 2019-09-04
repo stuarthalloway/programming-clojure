@@ -9,7 +9,7 @@
 ; END:song
 
 ; START:compositions
-(def compositions 
+(def compositions
   #{{:name "The Art of the Fugue" :composer "J. S. Bach"}
     {:name "Musical Offering" :composer "J. S. Bach"}
     {:name "Requiem" :composer "Giuseppe Verdi"}
@@ -33,8 +33,8 @@
   (merge song {:size 8118166 :time 507245}))
 
 (defdemo demo-merge-with
-  (merge-with 
-   concat 
+  (merge-with
+   concat
    {:flintstone, ["Fred"], :rubble ["Barney"]}
    {:flintstone, ["Wilma"], :rubble ["Betty"]}
    {:flintstone, ["Pebbles"], :rubble ["Bam-Bam"]}))
@@ -55,11 +55,11 @@
 ; END:mutable-re
 )
 
-; START:filter      
+; START:filter
 (defn minutes-to-millis [mins] (* mins 1000 60))
 
 (defn recently-modified? [file]
-  (> (.lastModified file) 
+  (> (.lastModified file)
      (- (System/currentTimeMillis) (minutes-to-millis 30))))
 ; END:filter
 
@@ -72,9 +72,9 @@
 (defn clojure-source? [file] (.endsWith (.toString file) ".clj"))
 
 (defn clojure-loc [base-file]
-  (reduce 
+  (reduce
    +
-   (for [file (file-seq base-file) 
+   (for [file (file-seq base-file)
 	 :when (and (clojure-source? file) (non-svn? file))]
      (with-open [rdr (reader file)]
        (count (filter non-blank? (line-seq rdr)))))))
@@ -82,12 +82,9 @@
 
 (defn demo-xml-seq []
 ; START:xml-seq
-(for [x (xml-seq 
+(for [x (xml-seq
 	 (parse (java.io.File. "data/sequences/compositions.xml")))
       :when (= :composition (:tag x))]
   (:composer (:attrs x)))
 ; END:xml-seq
 )
-
-
-

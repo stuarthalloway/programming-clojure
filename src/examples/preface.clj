@@ -1,5 +1,5 @@
 (ns examples.preface)
 
-; START: listing 
+; START: listing
 (println "hello")
 ; END: listing

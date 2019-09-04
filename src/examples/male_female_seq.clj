@@ -6,7 +6,7 @@
     0
     (- n (f (m (dec n))))))
 
-(defn- f [n]		 
+(defn- f [n]
   (if (zero? n)
     1
     (- n (m (f (dec n))))))
@@ -18,4 +18,3 @@
 (def m-seq (map m (iterate inc 0)))
 (def f-seq (map f (iterate inc 0)))
 ; END: m-f-seq
-

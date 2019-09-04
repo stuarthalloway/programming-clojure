@@ -6,7 +6,7 @@
 
 ; START:date
 (defn date [person-1 person-2 & chaperones]
-  (println person-1 "and" person-2 
+  (println person-1 "and" person-2
 	   "went out with" (count chaperones) "chaperones."))
 ; END:date
 
@@ -26,7 +26,7 @@
 (defn is-small? [number]
   (if (< number 100)
     "yes"
-    (do 
+    (do
       (println "Saw a big number" number)
       "no")))
 ; END:do
@@ -54,7 +54,7 @@
 
 ; START: index-filter
 (defn index-filter [pred coll]
-  (when pred 
+  (when pred
     (for [[idx elt] (indexed coll) :when (pred elt)] idx)))
 ; END: index-filter
 ; START:index-of-any
@@ -63,7 +63,7 @@
 ; END: index-of-any
 
 ; START:greeting
-(defn greeting 
+(defn greeting
   "Returns a greeting of the form 'Hello, username.'"
   [username]
   (str "Hello, " username))
@@ -71,7 +71,7 @@
 (def simple-greeting greeting)
 
 ; START:greeting-with-default
-(defn greeting 
+(defn greeting
   "Returns a greeting of the form 'Hello, username.'
    Default username is 'world'."
   ([] (greeting "world"))
@@ -84,7 +84,7 @@
   (> (count word) 2))
 ; END:indexable-word
 
-; START:indexable-words 
+; START:indexable-words
 (defn indexable-words [text]
   (let [indexable-word? (fn [w] (> (count w) 2))]
     (filter indexable-word? (str/split text #"\W+"))))

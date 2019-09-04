@@ -52,16 +52,16 @@
 
 ; START:print-element-handler
 (def print-element-handler
-     (proxy [DefaultHandler] [] 
-       (startElement            
-	[uri local qname atts] 
+     (proxy [DefaultHandler] []
+       (startElement
+	[uri local qname atts]
 	(println (format "Saw element: %s" qname)))))
 ; END:print-element-handler
 
 ; START:demo-sax-parse
 (defn demo-sax-parse [string handler]
-  (.. SAXParserFactory newInstance newSAXParser 
-      (parse (InputSource. (StringReader. string)) 
+  (.. SAXParserFactory newInstance newSAXParser
+      (parse (InputSource. (StringReader. string))
 	     handler)))
 ; END:demo-sax-parse
 
@@ -83,7 +83,7 @@
  (finally
   (println "we get to clean up")))
 ; END:try-finally
-)  
+)
 
 ; START:poor-class-available
 ; not caller-friendly
@@ -94,9 +94,9 @@
 
 ; START:better-class-available
 (defn class-available? [class-name]
-  (try 
+  (try
    (Class/forName class-name) true
-   (catch ClassNotFoundException _ false)))    
+   (catch ClassNotFoundException _ false)))
 ; END:better-class-available
 
 ; START:untyped-describe-class
@@ -112,5 +112,3 @@
    :final (java.lang.reflect.Modifier/isFinal (.getModifiers c))})
 ; END:typed-describe-class
 (def typed-describe-class describe-class)
-
-

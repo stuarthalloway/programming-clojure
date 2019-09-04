@@ -46,8 +46,8 @@
 ; END: defmethod-vector
 
 ; START:prefer-method
-(prefer-method 
- my-print clojure.lang.IPersistentVector java.util.Collection)  
+(prefer-method
+ my-print clojure.lang.IPersistentVector java.util.Collection)
 ; END:prefer-method
 
 ; START: my-class
@@ -55,4 +55,3 @@
 (defmethod my-class nil [_] nil)
 (defmethod my-class :default [x] (.getClass x))
 ; END: my-class
-

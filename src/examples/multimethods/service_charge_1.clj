@@ -12,4 +12,3 @@
   (if (= (:tag acct) ::Checking) 25 10))
 (defmethod service-charge ::Premium [_] 0)
 ; END:service-charge
-

@@ -28,7 +28,7 @@
 (defn with-out-str-as-fn [f]
   (let [s# (new java.io.StringWriter)]
     (binding [*out* s#]
-      (f)           
+      (f)
       (str s#))))
 ; END: with-out-str-as-fn
 
@@ -43,7 +43,7 @@
   `(let [start# (System/nanoTime)
 	 result# ~expr]
      {:result result# :elapsed (- (System/nanoTime) start#)}))
-; END: bench-2	      
+; END: bench-2
 
 ; START: bench-fn
 (defn bench-fn [f]
@@ -51,8 +51,3 @@
 	result (f)]
      {:result result :elapsed (- (System/nanoTime) start)}))
 ; END: bench-fn
-  
-
-
-
-

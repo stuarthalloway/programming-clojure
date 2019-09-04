@@ -28,7 +28,7 @@
   (.write *out* (str/join " " ob))
   (.write *out* "]"))
 
-(defn my-print [ob] 
+(defn my-print [ob]
   (cond
    (vector? ob) (my-print-vector ob)
    (nil? ob) (.write *out* "nil")

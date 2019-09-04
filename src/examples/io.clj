@@ -64,7 +64,7 @@
        (-> src .getPath FileInputStream.)
        (.openStream src))))
 
-	   
+
   (make-writer [dst]
     (make-writer
      (if (= "file" (.getProtocol dst))

@@ -1,15 +1,15 @@
 (ns examples.utils
   (:import [java.io BufferedReader InputStreamReader]))
-	  
+
 (require 'clojure.test)
 (defmacro re-test [test-sym]
   `(do
      (require :reload-all '~test-sym)
      (clojure.test/run-tests '~test-sym)))
-  
-(defn classloader-seq 
+
+(defn classloader-seq
   ([] (classloader-seq (clojure.lang.RT/baseLoader)))
-  ([cl] 
+  ([cl]
      (loop [loaders (vector cl)]
        (if (nil? (last loaders))
 	 (drop-last loaders)
@@ -24,13 +24,13 @@
 (defmacro show-publics [ns]
   `(doseq [p# (ns-publics (quote ~ns))]
      (println (first p#))))
-     
+
 ; TODO: update book or add to Clojure
 (defmacro ?.
   "like .. but drops out on null object"
-  ([x form] 
+  ([x form]
      `(. ~x ~form))
-  ([x form & more] 
+  ([x form & more]
      `(if-let x# (. ~x ~form) (.? x# ~@more))))
 
 (defn files-on-classpath-at [path]
@@ -42,7 +42,7 @@
      (let [result# (with-out-str (format-for-book ~@forms))]
        (spit ~(str "output/" (name nm) ".out") result#)
        result#)))
-  
+
 (defmacro format-for-book [& forms]
   `(do
      ~@(map (fn [form]
@@ -60,5 +60,5 @@
 	    forms)))
 
 (defn jar-urls [dir]
-  (map #(.toURL %) 
+  (map #(.toURL %)
        (filter #(re-find #"jar$" (.getName %)) (.listFiles (java.io.File. dir)))))

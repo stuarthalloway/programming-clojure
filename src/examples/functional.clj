@@ -20,10 +20,10 @@
     (fib 0N 1N n))) ; <label id="code.tail-fibo.call"/>
 ; END: tail-fibo
 
-; START: recur-fibo    
+; START: recur-fibo
 ; better but not great
 (defn recur-fibo [n]
-  (letfn [(fib 
+  (letfn [(fib
             [current next n]
             (if (zero? n)
               current
@@ -32,8 +32,8 @@
 ; END: recur-fibo
 
 ; START: lazy-seq-fibo
-(defn lazy-seq-fibo 
-  ([] 
+(defn lazy-seq-fibo
+  ([]
      (concat [0 1] (lazy-seq-fibo 0N 1N))) ; <label id="code.lazy-seq-fibo.basis"/>
   ([a b]
      (let [n (+ a b)]                    ; <label id="code.lazy-seq-fibo.n"/>
@@ -75,7 +75,7 @@
 
 ; START: count-heads-by-pairs
 (defn count-heads-pairs [coll]
-  (count (filter (fn [pair] (every? #(= :h %) pair)) 
+  (count (filter (fn [pair] (every? #(= :h %) pair))
 		 (by-pairs coll))))
 ; END: count-heads-by-pairs
 (def count-heads-by-pairs count-heads-pairs)
@@ -147,7 +147,7 @@
                true
              (recur next (rest stream))))))))
 
-  
+
 (declare init more end)
 
 (defn init [stream]
@@ -155,12 +155,9 @@
     (more (rest stream))))
 
 (defn more [stream]
-  (cond 
+  (cond
    (#{'a 'd} (first stream)) (more (rest stream))
    (#{'r} (first stream)) (end (rest stream))))
 
 (defn end [stream]
   (when-not (seq stream) true))
-
-
-	      
