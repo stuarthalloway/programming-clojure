@@ -5,7 +5,7 @@
 (defn trampoline-fibo [n]
   (let [fib (fn fib [f-2 f-1 current]
 	      (let [f (+ f-2 f-1)]
-		(if (= n current) 
+		(if (= n current)
 		  f
 		  #(fib f-1 f (inc current)))))] ; <label id="code.trampoline.function"/>
   (cond
@@ -27,5 +27,3 @@
     true
     #(my-odd? (dec n)))) ; <label id="code.trampoline.my-even"/>
 ; END: odd-even
-
-

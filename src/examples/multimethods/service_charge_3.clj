@@ -15,6 +15,3 @@
 (defmethod service-charge [::acc/Basic ::acc/Savings]    [_] 10)
 (defmethod service-charge [::acc/Premium ::acc/Account] [_] 0)
 ; END: service-charge
-
-
-  

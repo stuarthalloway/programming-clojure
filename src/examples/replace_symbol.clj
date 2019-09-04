@@ -7,9 +7,9 @@
 (defmethod replace-symbol :collection [coll oldsym newsym]
   (lazy-seq ; <label id="code.replace-symbol.lazy-seq"/>
    (when (seq coll)
-    (cons (replace-symbol (first coll) oldsym newsym) 
+    (cons (replace-symbol (first coll) oldsym newsym)
 	  (replace-symbol (rest coll) oldsym newsym)))))
-(defmethod replace-symbol :scalar [obj oldsym newsym] 
+(defmethod replace-symbol :scalar [obj oldsym newsym]
   (if (= obj oldsym) newsym obj))
 ; END: replace-symbol
 
@@ -21,5 +21,3 @@
       result
       (recur (dec n) (list result)))))
 ; END: deeply-nested
-   
-

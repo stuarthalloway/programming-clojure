@@ -22,11 +22,11 @@
 
 ; START: demo-memoize
 (defn demo-memoize []
-  (time 
+  (time
    (dorun
     (binding [slow-double (memoize slow-double)]
       (calls-slow-double)))))
-; END: demo-memoize	 
+; END: demo-memoize
 
 ; START: backup-agent
 (def backup-agent (agent "output/messages-backup.clj"))
@@ -34,12 +34,10 @@
 
 ; START: add-message-with-backup
 (defn add-message-with-backup [msg]
-  (dosync 
+  (dosync
    (let [snapshot (commute messages conj msg)]
      (send-off backup-agent (fn [filename]
 			      (spit filename snapshot)
 			      filename))
      snapshot)))
 ; END: add-message-with-backup
-
-  

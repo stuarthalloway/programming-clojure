@@ -1,12 +1,12 @@
 ; Inspired by the snakes that have gone before:
 ; Abhishek Reddy's snake: http://www.plt1.com/1070/even-smaller-snake/
-; Mark Volkmann's snake: http://www.ociweb.com/mark/programming/ClojureSnake.html 
+; Mark Volkmann's snake: http://www.ociweb.com/mark/programming/ClojureSnake.html
 
-; The START:/END: pairs are production artifacts for the book and not 
+; The START:/END: pairs are production artifacts for the book and not
 ; part of normal Clojure style
 
 (ns examples.snake
-  (:import (java.awt Color Dimension) 
+  (:import (java.awt Color Dimension)
 	   (javax.swing JPanel JFrame Timer JOptionPane)
            (java.awt.event ActionListener KeyListener))
   (:use examples.import-static))
@@ -21,31 +21,31 @@
 (def point-size 10)
 (def turn-millis 75)
 (def win-length 5)
-(def dirs { VK_LEFT  [-1  0] 
+(def dirs { VK_LEFT  [-1  0]
             VK_RIGHT [ 1  0]
-            VK_UP    [ 0 -1] 
+            VK_UP    [ 0 -1]
 	    VK_DOWN  [ 0  1]})
 ; END: constants
 
 ; START: board math
-(defn add-points [& pts] 
+(defn add-points [& pts]
   (vec (apply map + pts)))
 
-(defn point-to-screen-rect [pt] 
-  (map #(* point-size %) 
+(defn point-to-screen-rect [pt]
+  (map #(* point-size %)
        [(pt 0) (pt 1) 1 1]))
 ; END: board math
 
 ; START: apple
-(defn create-apple [] 
+(defn create-apple []
   {:location [(rand-int width) (rand-int height)]
    :color (Color. 210 50 90)
-   :type :apple}) 
+   :type :apple})
 ; END: apple
 
 ; START: snake
 (defn create-snake []
-  {:body (list [1 1]) 
+  {:body (list [1 1])
    :dir [1 0]
    :type :snake
    :color (Color. 15 160 70)})
@@ -53,12 +53,12 @@
 
 ; START: move
 (defn move [{:keys [body dir] :as snake} & grow]
-  (assoc snake :body (cons (add-points (first body) dir) 
+  (assoc snake :body (cons (add-points (first body) dir)
 			   (if grow body (butlast body)))))
 ; END: move
 
 ; START: turn
-(defn turn [snake newdir] 
+(defn turn [snake newdir]
   (assoc snake :dir newdir))
 ; END: turn
 
@@ -108,9 +108,9 @@
 ; gui
 ; ----------------------------------------------------------
 ; START: fill-point
-(defn fill-point [g pt color] 
+(defn fill-point [g pt color]
   (let [[x y width height] (point-to-screen-rect pt)]
-    (.setColor g color) 
+    (.setColor g color)
     (.fillRect g x y width height)))
 ; END: fill-point
 
@@ -143,15 +143,15 @@
       (.repaint this))
     (keyPressed [e] ; <label id="code.game-panel.keyPressed"/>
       (update-direction snake (dirs (.getKeyCode e))))
-    (getPreferredSize [] 
-      (Dimension. (* (inc width) point-size) 
+    (getPreferredSize []
+      (Dimension. (* (inc width) point-size)
 		  (* (inc height) point-size)))
     (keyReleased [e])
     (keyTyped [e])))
 ; END: game-panel
 
 ; START: game
-(defn game [] 
+(defn game []
   (let [snake (ref (create-snake)) ; <label id="code.game.let"/>
 	apple (ref (create-apple))
 	frame (JFrame. "Snake")
@@ -167,4 +167,3 @@
     (.start timer) ; <label id="code.game.timer"/>
     [snake, apple, timer])) ; <label id="code.game.return"/>
 ; END: game
-

@@ -6,7 +6,7 @@
 
 ; START: messages
 (def messages (ref ()))
-; END: messages      
+; END: messages
 
 ; START: validate-message-list
 (def validate-message-list
@@ -20,7 +20,7 @@
 (defn naive-add-message [msg]
   (dosync (ref-set messages (cons msg @messages))))
 ; END: naive-add-message
- 
+
 ; START: add-message
 (defn add-message [msg]
   (dosync (alter messages conj msg)))

@@ -36,7 +36,7 @@
 (defroutes routes
   (GET "/" [] (new-snippet))
   (GET "/:id" [id] (show-snippet id))
-  (POST "/" [body] (create-snippet body))	
+  (POST "/" [body] (create-snippet body))
   (route/not-found "<h2>Not Found</h2>"))
 ; END: routes
 

@@ -20,7 +20,7 @@
   "Imports the named static fields and/or static methods of the class
   as (private) symbols in the current namespace.
 
-  Example: 
+  Example:
       user=> (import-static java.lang.Math PI sqrt)
       nil
       user=> PI

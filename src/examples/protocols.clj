@@ -138,14 +138,14 @@
       (+ (* 12 (inc (:octave this)))
          (scale (:pitch this)))))
                                         ; END: key-number
-  
+
                                         ; START: play
   (play [this tempo midi-channel]
     (let [velocity (or (:velocity this) 64)]
       (.noteOn midi-channel (key-number this) velocity)
       (Thread/sleep (to-msec this tempo)))))
                                         ; END: play
-  
+
                                         ; START: perform
 (defn perform [notes & {:keys [tempo] :or {tempo 120}}]
   (with-open [synth (doto (MidiSystem/getSynthesizer) .open)]

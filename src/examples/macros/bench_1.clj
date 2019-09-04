@@ -6,6 +6,4 @@
   `(let [start (System/nanoTime)
 	 result ~expr]
      {:result result :elapsed (- (System/nanoTime) start)}))
-; END: bench	      
-
-
+; END: bench

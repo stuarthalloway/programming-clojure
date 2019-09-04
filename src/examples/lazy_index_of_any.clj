@@ -11,4 +11,3 @@
   (when pred (for [[idx elt] (indexed coll) :when (pred elt)] idx)))
 (defn index-of-any [pred coll]
   (first (index-filter pred coll)))
-		 

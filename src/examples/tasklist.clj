@@ -1,5 +1,5 @@
 (ns examples.tasklist
-  (:gen-class 
+  (:gen-class
    :extends org.xml.sax.helpers.DefaultHandler
    :init init
    :state state)

@@ -8,9 +8,9 @@
 (defn replace-symbol [coll oldsym newsym]
   (if (empty? coll)
     ()
-    (cons (replace-symbol-expression 
+    (cons (replace-symbol-expression
 	   (first coll) oldsym newsym)
-	  (replace-symbol 
+	  (replace-symbol
 	   (rest coll) oldsym newsym))))
 (defn replace-symbol-expression [symbol-expr oldsym newsym]
   (if (symbol? symbol-expr)

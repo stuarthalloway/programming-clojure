@@ -9,30 +9,30 @@
 
 (def *random* nil)
 
-(defn tl-rand 
+(defn tl-rand
   ([] (.nextDouble *random*))
   ([n] (* n (.nextDouble *random*))))
 
 (defn random-point []
   (let [random-coord (fn [] (dec (tl-rand 2)))]
     [(random-coord) (random-coord)]))
-                   
+
 (defstruct sample-results :in-circle :total)
 (def default-sample-count 10000)
 
 (defmulti run-simulation (fn [& args] (into [] (map class args))))
 
-(defmethod run-simulation [Number]   
+(defmethod run-simulation [Number]
   [n] (run-simulation (struct sample-results 0 0) n))
 
 (defmethod run-simulation [java.util.Map]
   [results] (run-simulation results default-sample-count))
 
 (defmethod run-simulation [java.util.Map Number]
-  [results n] 
+  [results n]
   (binding [*random* (java.util.Random. (next-seed))]
     (reduce (fn [{in-circle :in-circle total :total} point]
-	      (struct sample-results 
+	      (struct sample-results
 		      (if (in-circle? point) (inc in-circle) in-circle)
 		      (inc total)))
 	    results
