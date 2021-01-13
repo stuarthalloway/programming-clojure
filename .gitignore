@@ -10,3 +10,5 @@ lib/*
 .lein-failures
 classes/*
 /target
+.nrepl-port
+.lein-repl-history
