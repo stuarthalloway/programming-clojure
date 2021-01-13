@@ -9,3 +9,4 @@
 lib/*
 .lein-failures
 classes/*
+/target
